@@ -20,8 +20,8 @@ So if someones birthday is coming up, the can log in, look for the and browse th
 /list/:listid?update=true  
 /list/create  
 /list/:listid?additem=true  
-/list/:listid/item/:itemid?delete=true  
-/list/:listid/item/:itemid?update=true  
+/list/:listid/:itemid?delete=true  
+/list/:listid/:itemid?update=true  
 ```
   
 ![alt text](/images/image-3.png)  
@@ -63,7 +63,7 @@ So if someones birthday is coming up, the can log in, look for the and browse th
         },
         "list": [
             "id": "1",
-            "userId": "1",
+            "userId": "1"
             "title": "Christmas list",
             "description": "for christmas",
             "items": {
@@ -202,8 +202,16 @@ So if someones birthday is coming up, the can log in, look for the and browse th
 }
 ```
 
-
-
 ![alt text](/images/image-4.png)  
-HTTP DELETE /list//:listid?delete=true
-  
+
+| HTTP | REQUEST | ENDPOINT                            |
+|------|---------|-------------------------------------|
+|      | GET     | /search                             |
+|      | GET     | /lists                              |
+|      | GET     | /list/{listid}                      |
+|      | DELETE  | /list/{listid}?delete=true          |
+|      | PUT     | /list/{listid}?update=true          |
+|      | POST    | /list/create                        |
+|      | POST    | /list/{listid}?additem=true         |
+|      | DELETE  | /list/{listid}/{itemid}?delete=true |
+|      | PUT     | /list/{listid}/{itemid}?update=true |
