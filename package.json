@@ -1,0 +1,29 @@
+{
+  "name": "u05-restfulapi-chokladglasyr",
+  "version": "1.0.0",
+  "description": "Mål\r + Skapa ett enkelt men engagerande tema för ert API (t.ex. filmer, böcker, resor, husdjur eller annat som intresserar er). \r + Skapa ett API i Express som kan genomföra CRUD-operationer (Create, Read, Update, Delete) mot en MongoDB-databas. \r + Bygga en professionell dokumentation i README, med kopierbara cURL-exempel både för en lokal server och för den deployade versionen. \r + Deploya projektet till en molntjänst (t.ex. Render) och tillgängliggör det externt. \r + Visa förståelse för felhantering genom att skicka meningsfulla felmeddelanden vid felaktiga förfrågningar. \r + Förbereda API:et för framtida frontendprojekt, exempelvis genom att aktivera CORS och använda `.env`-fil för konfiguration.",
+  "main": "server.js",
+  "scripts": {
+    "watch": "npx tsc --watch",
+    "dev": "nodemon ./src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chokladglasyr/u05-RESTfulapi-Chokladglasyr.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Chokladglasyr/u05-RESTfulapi-Chokladglasyr/issues"
+  },
+  "homepage": "https://github.com/Chokladglasyr/u05-RESTfulapi-Chokladglasyr#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "typescript": "5.8.2"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

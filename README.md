@@ -1,4 +1,5 @@
 ## The assignment:
+(copied from school)  
 Mål
 + Skapa ett enkelt men engagerande tema för ert API (t.ex. filmer, böcker, resor, husdjur eller annat som intresserar er). 
 + Skapa ett API i Express som kan genomföra CRUD-operationer (Create, Read, Update, Delete) mot en MongoDB-databas. 
@@ -9,6 +10,7 @@ Mål
 
 ## The idea:
 Create a wishlist, the user will be able to have multiple wishlists, with multiple items in.  
-Each item will have title, description, link to item. For added features user will be able to upload a photo. Eventually add input for price, so sorting could be sorted by price. 
+Each item will have title, description, link to item. For added features user will be able to upload a photo. Eventually add input for price, so sorting could be sorted by price.  
+Eventually be able to search and filter lists made by one specific user. 
 
 # Getting started
