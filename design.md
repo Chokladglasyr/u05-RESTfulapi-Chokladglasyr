@@ -27,11 +27,11 @@ So if someones birthday is coming up, the can log in, look for the and browse th
 ![alt text](/images/image-3.png)  
 ### User 
 ```
-//user collection
+//collection resource for users
 {
     "users": {
         "size": "2",
-        ": [
+        "user": [
             {
                 "id": "1",
                 "name": "ida",
@@ -50,6 +50,7 @@ So if someones birthday is coming up, the can log in, look for the and browse th
     }
 }
 
+//collection resources for single user
 {
     "user": {
         "id": "1",
@@ -70,12 +71,12 @@ So if someones birthday is coming up, the can log in, look for the and browse th
 }
 ```
   
-  ### List  
+### List  
 ```
+//collection resource for lists
 {
-    ": {
+    "lists": {
         "size": "2",
-        "lists": "2",
         "list": [
             {
                 "id": "1",
@@ -92,14 +93,44 @@ So if someones birthday is coming up, the can log in, look for the and browse th
         ]
     }
 }
+//collection resource for single list
+{
+    "list": {
+        "id": "1",
+        "userId": "1",
+        "title": "Christmas list",
+        "description": "for christmas",
+    },
+    "items": {
+        "size": "2"
+    },
+    "item": [
+        {
+            "id": "1",
+            "listId": "1",
+            "link": "https://www.zalando.se/tom-tailor-denim-rounded-hem-t-shirt-bas-white-to722o1ah-a12.html",
+            "description": "S, beige abbey stone",
+            "photo": "",
+            "price": "159"
+        },
+        {
+            "id": "2",
+            "listId": "1",
+            "link": "https://www.zalando.se/yourturn-unisex-solglasoegon-blue-yo154k01a-k11.html",
+            "description": "blue",
+            "photo": "",
+            "price": "169"
+        }
+    ]
+}
 ```
 
 ### List items
 ```
+//collection resource for items
 {
-    "list": {
-        "size": "2",
-        "items": "2",
+    "items": {
+        "size": "4",
         "item": [
             {
                 "id": "1",
@@ -111,14 +142,35 @@ So if someones birthday is coming up, the can log in, look for the and browse th
             },
             {
                 "id": "2",
-                "listId": "2",
+                "listId": "1",
                 "link": "https://www.zalando.se/yourturn-unisex-solglasoegon-blue-yo154k01a-k11.html",
                 "description": "blue",
                 "photo": "",
                 "price": "169"
-            }
+            },
+                        {
+                "id": "3",
+                "listId": "2",
+                "link": "https://glowid.se/products/glowid-glass-skin-drops",
+                "description": "",
+                "photo": "",
+                "price": "380"
+            },
+                        {
+                "id": "4",
+                "listId": "2",
+                "link": "https://www.zalando.se/kaffe-penny-pennkjol-svart-ka321b000-q00.html",
+                "description": "black, m",
+                "photo": "",
+                "price": "265"
+            },
         ]
     }
+}
+
+/collection resource for item
+{
+    
 }
 ```
 ```
