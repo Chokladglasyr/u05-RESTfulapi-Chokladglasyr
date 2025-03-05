@@ -66,6 +66,27 @@ So if someones birthday is coming up, the can log in, look for the and browse th
             "userId": "1",
             "title": "Christmas list",
             "description": "for christmas",
+            "items": {
+                "size": "2"
+            },
+            "item": [
+                {
+                    "id": "1",
+                    "listId": "1",
+                    "link": "https://www.zalando.se/tom-tailor-denim-rounded-hem-t-shirt-bas-white-to722o1ah-a12.html",
+                    "description": "S, beige abbey stone",
+                    "photo": "",
+                    "price": "159"
+                },
+                {
+                    "id": "2",
+                    "listId": "1",
+                    "link": "https://www.zalando.se/yourturn-unisex-solglasoegon-blue-yo154k01a-k11.html",
+                    "description": "blue",
+                    "photo": "",
+                    "price": "169"
+                }
+            ]
         ]
     }
 }
@@ -170,9 +191,15 @@ So if someones birthday is coming up, the can log in, look for the and browse th
 
 /collection resource for item
 {
-    
+    "item": {
+        "id": "1",
+        "listId": "1",
+        "link": "https://www.zalando.se/tom-tailor-denim-rounded-hem-t-shirt-bas-white-to722o1ah-a12.html",
+        "description": "S, beige abbey stone",
+        "photo": "",
+        "price": "159"
+    }
 }
-```
 ```
 
 
