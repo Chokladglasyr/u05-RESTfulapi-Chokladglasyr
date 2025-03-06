@@ -2,10 +2,10 @@
   "name": "u05-restfulapi-chokladglasyr",
   "version": "1.0.0",
   "description": "Mål\r + Skapa ett enkelt men engagerande tema för ert API (t.ex. filmer, böcker, resor, husdjur eller annat som intresserar er). \r + Skapa ett API i Express som kan genomföra CRUD-operationer (Create, Read, Update, Delete) mot en MongoDB-databas. \r + Bygga en professionell dokumentation i README, med kopierbara cURL-exempel både för en lokal server och för den deployade versionen. \r + Deploya projektet till en molntjänst (t.ex. Render) och tillgängliggör det externt. \r + Visa förståelse för felhantering genom att skicka meningsfulla felmeddelanden vid felaktiga förfrågningar. \r + Förbereda API:et för framtida frontendprojekt, exempelvis genom att aktivera CORS och använda `.env`-fil för konfiguration.",
-  "main": "server.js",
+  "main": "./build/server.js",
   "scripts": {
     "watch": "npx tsc --watch",
-    "dev": "nodemon ./src/server.js",
+    "dev": "nodemon ./src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

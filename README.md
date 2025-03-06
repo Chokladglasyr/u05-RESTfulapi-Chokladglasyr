@@ -14,3 +14,8 @@ Each item will have title, description, link to item. For added features user wi
 Eventually be able to search and filter lists made by one specific user. 
 
 # Getting started
+Clone the project  
+
+# API Architecture
+[API design](design.md)  
+[ER diagram](https://drawsql.app/teams/hej-8/diagrams/api)
