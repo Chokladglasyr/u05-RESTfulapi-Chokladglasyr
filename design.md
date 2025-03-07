@@ -169,7 +169,7 @@ So if someones birthday is coming up, the can log in, look for the and browse th
                 "photo": "",
                 "price": "169"
             },
-                        {
+            {
                 "id": "3",
                 "listId": "2",
                 "link": "https://glowid.se/products/glowid-glass-skin-drops",
@@ -177,7 +177,7 @@ So if someones birthday is coming up, the can log in, look for the and browse th
                 "photo": "",
                 "price": "380"
             },
-                        {
+            {
                 "id": "4",
                 "listId": "2",
                 "link": "https://www.zalando.se/kaffe-penny-pennkjol-svart-ka321b000-q00.html",
