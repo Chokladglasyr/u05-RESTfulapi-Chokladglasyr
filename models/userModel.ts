@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 
-const listSchema = new mongoose.Schema({userId: String, title: String, description: String}, {collection: 'lists'});
 
-const List = mongoose.model('List', listSchema);
+const userSchema = new mongoose.Schema({name: String, email: String, password: String, confirmed_password: String}, {collection: 'users'});
 
-export default List;
+const User = mongoose.model('User', userSchema);
+
+export default User;
