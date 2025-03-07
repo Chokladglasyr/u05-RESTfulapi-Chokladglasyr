@@ -5,8 +5,10 @@
   "main": "./build/server.js",
   "scripts": {
     "watch": "npx tsc --watch",
+    "start": "node build/server.js",
     "dev": "nodemon ./src/server.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc"
   },
   "repository": {
     "type": "git",
@@ -24,6 +26,8 @@
     "typescript": "5.8.2"
   },
   "dependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.9",
     "express": "^4.21.2"
   }
 }
