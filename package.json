@@ -23,11 +23,13 @@
   "homepage": "https://github.com/Chokladglasyr/u05-RESTfulapi-Chokladglasyr#readme",
   "devDependencies": {
     "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
     "typescript": "5.8.2"
   },
   "dependencies": {
     "@types/express": "^5.0.0",
     "@types/node": "^22.13.9",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "mongoose": "^8.12.1"
   }
