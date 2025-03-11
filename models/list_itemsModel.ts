@@ -1,7 +1,44 @@
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 
-const list_itemsSchema = new mongoose.Schema({title: String, description: String, listId: String, link: String, photo: String, price: Number}, {collection: 'list_items'});
+import { List_item } from "../interfaces/wishlistInterface";
 
-const List_item = mongoose.model('List_item', list_itemsSchema);
+// const list_itemsSchema = new mongoose.Schema({title: String, description: String, listId: String, link: String, photo: String, price: Number}, {collection: 'list_items'});
 
-export default List_item;
+// const List_item = mongoose.model('List_item', list_itemsSchema);
+
+// export default List_item;
+
+export let list_items: List_item[] = [
+    {
+        "id": 1,
+        "listId": 1,
+        "link": "https://www.zalando.se/tom-tailor-denim-rounded-hem-t-shirt-bas-white-to722o1ah-a12.html",
+        "description": "S, beige abbey stone",
+        "photo": "",
+        "price": 159,
+    },
+    {
+        "id": 2,
+        "listId": 1,
+        "link": "https://www.zalando.se/yourturn-unisex-solglasoegon-blue-yo154k01a-k11.html",
+        "description": "blue",
+        "photo": "",
+        "price": 169
+    },
+    {
+        "id": 3,
+        "listId": 2,
+        "link": "https://glowid.se/products/glowid-glass-skin-drops",
+        "description": "",
+        "photo": "",
+        "price": 380
+    },
+    {
+        "id": 4,
+        "listId": 2,
+        "link": "https://www.zalando.se/kaffe-penny-pennkjol-svart-ka321b000-q00.html",
+        "description": "black, m",
+        "photo": "",
+        "price": 265
+    },
+];

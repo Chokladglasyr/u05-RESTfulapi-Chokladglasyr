@@ -1,4 +1,4 @@
-import User from "../interface/userInterface"
+import User from "../interfaces/userInterface"
 // import mongoose from "mongoose";
 
 
