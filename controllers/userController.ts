@@ -1,12 +1,13 @@
 import {Request, Response } from "express";
 import users from "../models/userModel"
+import User from "../interfaces/userInterface";
 
 
-const getUsers = (req: Request, res: Response) => {
+export const getUsers = (req: Request, res: Response) => {
     res.json(users);
 };
 
-const getUserByName = (req: Request, res: Response) => {
+export const getUserByName = (req: Request, res: Response) => {
     const user = users.find((u) => u.name == req.params.name);
     if (!user) {
         res.status(404).json({message: "User not found"});
@@ -15,7 +16,7 @@ const getUserByName = (req: Request, res: Response) => {
     res.json(user);
 };
 
-const createUser = (req: Request, res: Response) => {
+export const createUser = (req: Request, res: Response) => {
     const newUser = {
         id: users.length + 1,
         name: req.body.name,
@@ -27,19 +28,27 @@ const createUser = (req: Request, res: Response) => {
     res.status(201).json(newUser);
 };
 
-const updateUser = (req: Request, res: Response) => {
+export const updateUser = (req: Request, res: Response) => {
+    const { name } = req.body;
+
     const user = users.find((u) => u.name === req.params.name);
+
     if (!user) {
-        return res.status(404).json({ message: "User not found" });
+        res.status(404).json({ message: "Unfortunately, a user with that name was not found!" });
+        return;
     }
-    const userId: number = user.id;
-    const {name, email, password, confirmed_password} = req.body;
-    const userIndex = users.find((u) => u.id === user.id);
-    
-    //incomplete
- 
+
+    const userIndex = users.findIndex((u) => u.id === user.id);
+    if (userIndex === -1) {
+        res.status(404).json({ message: "Unfortunately, a user with that name was not found!" });
+        return;
+    }
+
+    users[userIndex] = {...users[userIndex], name: name ?? users[userIndex].name};
+
+    res.json({ message: "User updated successfully", user: users[userIndex] });
 };
 
+export const deleteUser = (req: Request, res: Response) => {
 
-
-
+}
