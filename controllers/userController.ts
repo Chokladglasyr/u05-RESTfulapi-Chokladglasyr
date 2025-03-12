@@ -50,5 +50,19 @@ export const updateUser = (req: Request, res: Response) => {
 };
 
 export const deleteUser = (req: Request, res: Response) => {
+    
+    const user = users.find((u) => u.name === req.params.name);
 
+    if (!user) {
+        res.status(404).json({ message: "Unfortunately, a user with that name was not found!" });
+        return;
+    }
+
+    const userIndex = users.findIndex((u) => u.id === user.id);
+    if (userIndex === -1) {
+        res.status(404).json({ message: "Unfortunately, a user with that name was not found!" });
+        return;
+    }
+    users.splice(userIndex, 1);
+    res.json({ message: "User deleted successfully" });
 }
