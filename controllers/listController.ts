@@ -12,17 +12,17 @@ export const getListByUsername = (req: Request, res: Response): void => {
     const user = users.find((u) => u.name == req.params.name);
 
     if(!user) {
-         res.status(404).json({message: "Unfortunately, a user with that name was not found!"});
+         res.status(404).json({message: "Unfortunately, a user with that name was not found!5"});
          return;
     }
    
-    const list = lists.filter((u) => u.userId === user.id)
+    const list = lists.filter((l) => l.userId === user.id)
     res.json(list);
 };
 export const createList = (req: Request, res: Response) => {
     const user = users.find((u) => u.name === req.params.name);
     if(!user) {
-        res.status(404).json({message: "Unfortunately, a user with that name was not found!"});
+        res.status(404).json({message: "Unfortunately, a user with that name was not found!6"});
         return;
    }
     const newList = {
@@ -55,7 +55,7 @@ export const updateListByUsername = (req: Request, res: Response): void => {
     };
 export const deleteList = (req: Request, res: Response) => {
     const user = users.find((u) => u.name === req.params.name);
-    
+
     const listIndex = lists.findIndex((l) => l.id === parseInt(req.params.id));
 
     if (!user || user.id != lists[listIndex].userId) {

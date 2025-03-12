@@ -34,13 +34,13 @@ export const updateUser = (req: Request, res: Response) => {
     const user = users.find((u) => u.name === req.params.name);
 
     if (!user) {
-        res.status(404).json({ message: "Unfortunately, a user with that name was not found!" });
+        res.status(404).json({ message: "Unfortunately, a user with that name was not found!1" });
         return;
     }
 
     const userIndex = users.findIndex((u) => u.id === user.id);
     if (userIndex === -1) {
-        res.status(404).json({ message: "Unfortunately, a user with that name was not found!" });
+        res.status(404).json({ message: "Unfortunately, a user with that name was not found!2" });
         return;
     }
 
@@ -54,13 +54,13 @@ export const deleteUser = (req: Request, res: Response): void => {
     const user = users.find((u) => u.name === req.params.name);
 
     if (!user) {
-        res.status(404).json({ message: "Unfortunately, a user with that name was not found!" });
+        res.status(404).json({ message: "Unfortunately, a user with that name was not found!3" });
         return;
     }
 
     const userIndex = users.findIndex((u) => u.id === user.id);
     if (userIndex === -1) {
-        res.status(404).json({ message: "Unfortunately, a user with that name was not found!" });
+        res.status(404).json({ message: "Unfortunately, a user with that name was not found!4" });
         return;
     }
     users.splice(userIndex, 1);

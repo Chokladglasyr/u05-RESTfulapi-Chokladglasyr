@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import connectDB from "../database/db";
 import userRouter from  "../routes/userRoutes";
 import listRouter from  "../routes/listRoutes";
+import list_itemRouter from "../routes/list_itemRoutes";
 
 
 
@@ -19,6 +20,7 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use('/users', userRouter);
 app.use('/lists', listRouter);
+app.use('/items', list_itemRouter);
 
 app.listen(PORT, () => {
     console.log(`Application is running at http://localhost:${PORT}`);
