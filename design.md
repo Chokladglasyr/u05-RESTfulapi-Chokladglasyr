@@ -13,11 +13,12 @@ So if someones birthday is coming up, the can log in, look for the and browse th
 ![alt text](/images/image-2.png)  
 ```
 /                                   (home)
-/users                              (show all users)        (create user)  
-/users/:id                          (show specific user)    (delete/update)  
-/lists                              (show all lists)        (create list)  
-/lists/:listid                      (show specific list)    (delete/update)  
-/lists/:listid/items                (show all items)        (create item)
+/users                              (show all users)            (create user)  
+/users/:id                          (show specific user)        (delete/update) 
+/lists                              (show all lists)
+/lists/:name                        (show all lists for user)   (create list)  
+/lists/:listid                      (show specific list)        (delete/update)  
+/lists/:listid/items                (show all items)            (create item)
 /lists/:listid/:itemid              (delete/update)  
   
 ----------- Extra functionality ---------------------------
