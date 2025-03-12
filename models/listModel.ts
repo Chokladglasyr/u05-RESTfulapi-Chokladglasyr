@@ -1,7 +1,24 @@
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 
-const listSchema = new mongoose.Schema({userId: String, title: String, description: String}, {collection: 'lists'});
+import { List } from "../interfaces/wishlistInterface";
 
-const List = mongoose.model('List', listSchema);
+// const listSchema = new mongoose.Schema({userId: String, title: String, description: String}, {collection: 'lists'});
 
-export default List;
+// const List = mongoose.model('List', listSchema);
+
+// export default List;
+
+export let lists: List [] = [
+    {
+        "id": 1,
+        "userId": 1,
+        "title": "Christmas list",
+        "description": "for christmas",
+    },
+    {
+        "id": 2,
+        "userId": 2,
+        "title": "bday list",
+        "description": "for my bday",
+    }
+];
