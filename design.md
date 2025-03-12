@@ -12,16 +12,19 @@ So if someones birthday is coming up, the can log in, look for the and browse th
   
 ![alt text](/images/image-2.png)  
 ```
-/
-/search
-/lists  
-/list/:listid  
-/list/:listid?delete=true  
-/list/:listid?update=true  
-/list/create  
-/list/:listid?additem=true  
-/list/:listid/:itemid?delete=true  
-/list/:listid/:itemid?update=true  
+/                                   (home)
+/users                              (show all users)        (create user)  
+/users/:id                          (show specific user)    (delete/update)  
+/lists                              (show all lists)        (create list)  
+/lists/:listid                      (show specific list)    (delete/update)  
+/lists/:listid/items                (show all items)        (create item)
+/lists/:listid/:itemid              (delete/update)  
+  
+----------- Extra functionality ---------------------------
+/search?:listname                   (search for all lists with list name)
+/search?:username                   (search for all user with user name)
+/search?:itemname                   (search for all lists with item name in)
+
 ```
   
 ![alt text](/images/image-3.png)  

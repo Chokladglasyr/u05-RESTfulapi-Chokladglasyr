@@ -1,6 +1,6 @@
 import {Request, Response } from "express";
 import users from "../models/userModel"
-import User from "../interfaces/userInterface";
+
 
 
 export const getUsers = (req: Request, res: Response) => {
@@ -10,7 +10,7 @@ export const getUsers = (req: Request, res: Response) => {
 export const getUserByName = (req: Request, res: Response) => {
     const user = users.find((u) => u.name == req.params.name);
     if (!user) {
-        res.status(404).json({message: "User not found"});
+        res.status(404).json({message: "User not found."});
         return;
     }
     res.json(user);
@@ -49,7 +49,7 @@ export const updateUser = (req: Request, res: Response) => {
     res.json({ message: "User updated successfully", user: users[userIndex] });
 };
 
-export const deleteUser = (req: Request, res: Response) => {
+export const deleteUser = (req: Request, res: Response): void => {
     
     const user = users.find((u) => u.name === req.params.name);
 
