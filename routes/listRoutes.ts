@@ -8,6 +8,6 @@ listRouter.get('/', getLists);
 listRouter.get('/:name', getListByUsername);
 listRouter.post('/:name', createList);
 listRouter.put('/:name/:id', updateListByUsername);
-listRouter.delete('/:id', deleteList);
+listRouter.delete('/:name/:id', deleteList);
 
 export default listRouter;

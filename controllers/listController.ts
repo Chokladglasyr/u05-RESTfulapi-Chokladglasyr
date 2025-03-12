@@ -38,7 +38,6 @@ export const createList = (req: Request, res: Response) => {
 export const updateListByUsername = (req: Request, res: Response): void => {
     const { title, description } = req.body;
     const user = users.find((u) => u.name === req.params.name);
-    
 
     const listIndex = lists.findIndex((l) => l.id === parseInt(req.params.id));
 
@@ -55,8 +54,14 @@ export const updateListByUsername = (req: Request, res: Response): void => {
         res.json({ message: "List updated successfully", list: lists[listIndex] });
     };
 export const deleteList = (req: Request, res: Response) => {
-    console.log(req.params.id);
+    const user = users.find((u) => u.name === req.params.name);
+    
     const listIndex = lists.findIndex((l) => l.id === parseInt(req.params.id));
+
+    if (!user || user.id != lists[listIndex].userId) {
+        res.status(404).json({message: "Something went wrong"});
+        return;
+    }
     if(listIndex === -1) {
         res.status(404).json({message: "Couldn't find a list with that id."});
         return;
