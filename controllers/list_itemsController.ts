@@ -19,6 +19,9 @@ export const getList_itemsByList = (req: Request, res: Response): void => {
 };
 export const createList_item = (req: Request, res: Response) => {
     const list = lists.find((l) => l.id === parseInt(req.params.id));
+    if (!list) {
+        res.status(404).json({message: "Cannot find list"});
+    }
     const { link, description, photo, price} = req.body;
     const newItem = {
         id: list_items.length + 1,
@@ -27,7 +30,11 @@ export const createList_item = (req: Request, res: Response) => {
         description: description,
         photo: photo,
         price: parseInt(price)
-    }
+    };
+    list_items.push(newItem);
+    const items = list_items.filter((i) => i.listId === parseInt(req.params.id));
+
+    res.status(201).json(items);
 };
 export const updateList_item = (req: Request, res: Response) => {
     
