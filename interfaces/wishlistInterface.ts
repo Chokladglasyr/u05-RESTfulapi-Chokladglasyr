@@ -5,6 +5,7 @@ export interface Wishlist {
 
 export interface List extends Wishlist {
     userId: number,
+    username: string,
     title: string,
 }
 

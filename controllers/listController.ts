@@ -28,6 +28,7 @@ export const createList = (req: Request, res: Response) => {
     const newList = {
         id: lists.length +1,
         userId: user.id,
+        username: user.name,
         title: req.body.title,
         description: req.body.description
     };

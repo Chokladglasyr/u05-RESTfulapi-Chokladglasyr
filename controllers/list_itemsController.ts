@@ -16,13 +16,21 @@ export const getList_itemsByList = (req: Request, res: Response): void => {
     }
     res.json(items);
     
-
 };
 export const createList_item = (req: Request, res: Response) => {
-
+    const list = lists.find((l) => l.id === parseInt(req.params.id));
+    const { link, description, photo, price} = req.body;
+    const newItem = {
+        id: list_items.length + 1,
+        listId: parseInt(req.params.id),
+        link: link,
+        description: description,
+        photo: photo,
+        price: parseInt(price)
+    }
 };
 export const updateList_item = (req: Request, res: Response) => {
-
+    
 };
 export const deleteList_item = (req: Request, res: Response) => {
 
