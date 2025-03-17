@@ -29,7 +29,7 @@ export const createList_item = (req: Request, res: Response) => {
         link: link,
         description: description,
         photo: photo,
-        price: parseInt(price)
+        price: parseInt(price) || 0,
     };
     list_items.push(newItem);
     const items = list_items.filter((i) => i.listId === parseInt(req.params.id));
