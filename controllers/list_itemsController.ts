@@ -37,6 +37,19 @@ export const createList_item = (req: Request, res: Response) => {
     res.status(201).json(items);
 };
 export const updateList_item = (req: Request, res: Response) => {
+    const { link, description, photo, price } = req.body;
+    const list_itemIndex = list_items.findIndex((i) => (i.id) === parseInt(req.params.id));
+    if (list_itemIndex === -1) {
+        res.status(404).json({message: "Item not found"});
+        return;
+    }
+    list_items[list_itemIndex] = {... list_items[list_itemIndex],
+        link: link ?? list_items[list_itemIndex].link,
+        description: description ?? list_items[list_itemIndex].description,
+        photo: photo ?? list_items[list_itemIndex].photo,
+        price: price ?? list_items[list_itemIndex].price,
+    };
+    res.json({message: "List item updated", list_item: list_items[list_itemIndex]});
     
 };
 export const deleteList_item = (req: Request, res: Response) => {
