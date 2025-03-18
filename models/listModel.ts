@@ -1,13 +1,12 @@
-// import mongoose from "mongoose";
-
+import mongoose from "mongoose";
 import { List } from "../interfaces/wishlistInterface";
+import list_itemsSchema from "../schemas/list_itemSchema";
 
-// const listSchema = new mongoose.Schema({userId: String, title: String, description: String}, {collection: 'lists'});
 
-// const List = mongoose.model('List', listSchema);
+const List = mongoose.model('List', list_itemsSchema);
 
-// export default List;
 
+//Dummy data without DB
 export let lists: List [] = [
     {
         "id": 1,

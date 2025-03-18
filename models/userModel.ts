@@ -1,13 +1,12 @@
 import User from "../interfaces/userInterface"
-// import mongoose from "mongoose";
+import mongoose from "mongoose";
+import userSchema from "../schemas/userSchema";
 
 
-// const userSchema = new mongoose.Schema({name: String, email: String, password: String, confirmed_password: String}, {collection: 'users'});
 
-// const User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
-// export default User;
-
+//Dummy data without DB
 let users: User[] = [
     {
         "id": 1,

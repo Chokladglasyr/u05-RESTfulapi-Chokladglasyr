@@ -1,12 +1,8 @@
-// import mongoose from "mongoose";
-
+import mongoose from "mongoose";
 import { List_item } from "../interfaces/wishlistInterface";
+import list_itemsSchema from "../schemas/list_itemSchema";
 
-// const list_itemsSchema = new mongoose.Schema({title: String, description: String, listId: String, link: String, photo: String, price: Number}, {collection: 'list_items'});
-
-// const List_item = mongoose.model('List_item', list_itemsSchema);
-
-// export default List_item;
+const List_item = mongoose.model('List_item', list_itemsSchema);
 
 export let list_items: List_item[] = [
     {
