@@ -53,5 +53,19 @@ export const updateList_item = (req: Request, res: Response) => {
     
 };
 export const deleteList_item = (req: Request, res: Response) => {
+    const {name} = req.query;
+    const list_itemIndex = lists.findIndex((i) => (i.id) === parseInt(req.params.id));
+    const user = users.find((u) => u.name === name);
+    // console.log(list_itemIndex);
+    if(!user || user.name != lists[list_itemIndex].username) {
+        res.status(404).json({message: "Access denied"});
+        return;
+    }
+    if (list_itemIndex === -1) {
+        res.status(404).json({message: "Couldn't find item"});
+        return;
+    }
+    list_items.splice(list_itemIndex, 1);
+    res.json({message: "Item deleted"});
 
 };
