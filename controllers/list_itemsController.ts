@@ -2,13 +2,14 @@ import {Request, Response } from "express";
 import { lists } from "../models/listModel";
 import users from "../models/userModel";
 import { list_items } from "../models/list_itemsModel";
+import { request } from "http";
 
 export const getList_items = (req: Request, res: Response) => {
     res.json(list_items);
 };
 export const getList_itemsByList = (req: Request, res: Response): void => {
     // const list = lists.find((l) => l.id === parseInt(req.params.id));
-
+ 
     const items = list_items.filter((l) => l.listId === parseInt(req.params.id));
     if (!items) {
         res.status(404).json({message: "Can't find anything"});
@@ -16,6 +17,27 @@ export const getList_itemsByList = (req: Request, res: Response): void => {
     }
     res.json(items);
     
+};
+export const getList_itemsByUser = (req:Request, res: Response) => {
+    const { name } = req.query;
+    const user = users.find((u) => u.name === name);
+
+    if(!user) {
+        res.status(404).json({message: "No user found"});
+        return;
+    }
+
+    const list = lists.find((l) => l.userId === user.id);
+    if(!list) {
+        res.status(404).json({message: "Something went wrong"});
+        return;
+    }
+    const items = list_items.filter((i) => (i.listId) === list.id);
+    if(!items) {
+        res.status(404).json({message: "Nothing found"});
+        return;
+    }
+    res.json(items);
 };
 export const createList_item = (req: Request, res: Response) => {
     const list = lists.find((l) => l.id === parseInt(req.params.id));
@@ -37,8 +59,16 @@ export const createList_item = (req: Request, res: Response) => {
     res.status(201).json(items);
 };
 export const updateList_item = (req: Request, res: Response) => {
-    const { link, description, photo, price } = req.body;
+    const {name} = req.query;
     const list_itemIndex = list_items.findIndex((i) => (i.id) === parseInt(req.params.id));
+    const { link, description, photo, price } = req.body;
+    const user = users.find((u) => u.name === name);
+
+    if(!user || user.name != lists[list_itemIndex].username) {
+        res.status(404).json({message: "Access denied"});
+        return;
+    }
+
     if (list_itemIndex === -1) {
         res.status(404).json({message: "Item not found"});
         return;
