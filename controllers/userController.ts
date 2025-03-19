@@ -47,8 +47,13 @@ export const createUser = async (req: Request, res: Response) => {
 
 export const updateUser = async (req: Request, res: Response) => {
     try {
-
-
+        const user = await User.findByIdAndUpdate(req.params.id, req.body, {new: true});
+        if (!user) {
+            res.status(404).json({message: "User not found"});
+        }
+        
+        res.json(user);
+        
     } catch (error: unknown){
         if (error instanceof Error) {
             res.status(500).json({error: error.message});
@@ -57,26 +62,21 @@ export const updateUser = async (req: Request, res: Response) => {
     }
 }
 
-// export const updateUser = (req: Request, res: Response) => {
-//     const { name } = req.body;
-
-//     const user = users.find((u) => u.name === req.params.name);
-
-//     if (!user) {
-//         res.status(404).json({ message: "Unfortunately, a user with that name was not found!1" });
-//         return;
-//     }
-
-//     const userIndex = users.findIndex((u) => u.id === user.id);
-//     if (userIndex === -1) {
-//         res.status(404).json({ message: "Unfortunately, a user with that name was not found!2" });
-//         return;
-//     }
-
-//     users[userIndex] = {...users[userIndex], name: name ?? users[userIndex].name};
-
-//     res.json({ message: "User updated successfully", user: users[userIndex] });
-// };
+export const deleteUser = async (req: Request, res: Response) => {
+    try {
+        const user = await User.findByIdAndDelete(req.params.id);
+        if(!user) {
+            res.status(404).json({message: "User not found"});
+            return;
+        }
+        res.json({message: "User deleted successfully."});
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            res.status(500).json({error: error.message});
+            return;
+        }
+    }
+}
 
 // export const deleteUser = (req: Request, res: Response): void => {
     
