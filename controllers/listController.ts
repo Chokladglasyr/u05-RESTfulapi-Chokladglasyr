@@ -1,7 +1,28 @@
-// import {Request, Response } from "express";
-// import { lists } from "../models/listModel";
-// import users from "../models/userModel";
+import {Request, Response } from "express";
+import List from "../models/listModel";
 
+export const getLists = async (req: Request, res: Response) => {
+    try {
+        const lists = await List.find();
+        res.json(lists)
+
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            res.status(500).json({error: error.message});
+            return;
+        }
+       
+    }
+}
+// try {
+
+// } catch (error: unknown) {
+//     if (error instanceof Error) {
+//         res.status(500).json({error: error.message});
+//         return;
+//     }
+   
+// }
 
 // export const getLists = (req: Request, res: Response) => {
 //     res.json(lists);
