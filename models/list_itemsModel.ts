@@ -4,6 +4,9 @@ import list_itemsSchema from "../schemas/list_itemSchema";
 
 const List_item = mongoose.model('List_item', list_itemsSchema);
 
+
+
+//Dummy data without DB
 export let list_items: List_item[] = [
     {
         "id": 1,
