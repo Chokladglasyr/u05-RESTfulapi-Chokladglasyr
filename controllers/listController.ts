@@ -66,29 +66,17 @@ export const updateList = async (req: Request, res: Response) => {
         }
     }  
 }
-// try {
-
-// } catch (error: unknown) {
-//     if (error instanceof Error) {
-//         res.status(500).json({error: error.message});
-//         return;
-//     }
-   
-// }
-
-// export const deleteList = (req: Request, res: Response) => {
-//     const user = users.find((u) => u.name === req.params.name);
-
-//     const listIndex = lists.findIndex((l) => l.id === parseInt(req.params.id));
-
-//     if (!user || user.id != lists[listIndex].userId) {
-//         res.status(404).json({message: "Something went wrong"});
-//         return;
-//     }
-//     if(listIndex === -1) {
-//         res.status(404).json({message: "Couldn't find a list with that id."});
-//         return;
-//     }
-//     lists.splice(listIndex, 1);
-//     res.json({message: "List deleted"});
-// }
+export const deleteList = async (req: Request, res: Response) => {
+try {
+    const list = await List.findByIdAndDelete(req.params.id);
+    if (!list) {
+        res.status(404).json({message: "List not found"});
+    }
+    res.json({message: "List deleted."});
+} catch (error: unknown) {
+    if (error instanceof Error) {
+        res.status(500).json({error: error.message});
+        return;
+    }
+} 
+}
