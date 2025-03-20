@@ -1,5 +1,6 @@
 import {Request, Response } from "express";
 import List from "../models/listModel";
+import User from "../models/userModel";
 
 export const getLists = async (req: Request, res: Response) => {
     try {
@@ -49,6 +50,22 @@ export const createList = async (req:Request, res: Response) => {
     
     }  
 }
+export const updateList = async (req: Request, res: Response) => {
+    try {
+        //add auth
+        const list = await List.findByIdAndUpdate(req.params.id, req.body, {new: true});
+        if(!list) {
+            res.status(404).json({message: "List not found"});
+            return;
+        }
+        res.json(list);
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            res.status(500).json({error: error.message});
+            return;
+        }
+    }  
+}
 // try {
 
 // } catch (error: unknown) {
@@ -59,24 +76,6 @@ export const createList = async (req:Request, res: Response) => {
    
 // }
 
-// export const updateListByUsername = (req: Request, res: Response): void => {
-//     const { title, description } = req.body;
-//     const user = users.find((u) => u.name === req.params.name);
-
-//     const listIndex = lists.findIndex((l) => l.id === parseInt(req.params.id));
-
-//     if (!user || user.id != lists[listIndex].userId) {
-//         res.status(404).json({message: "Something went wrong"});
-//         return;
-//     }
-//     if (listIndex === -1) {
-//         res.status(404).json({ message: "Unfortunately, " });
-//         return;
-//         }
-//         lists[listIndex] = {...lists[listIndex], title: title ?? lists[listIndex].title, description: description ?? lists[listIndex].description};
-
-//         res.json({ message: "List updated successfully", list: lists[listIndex] });
-//     };
 // export const deleteList = (req: Request, res: Response) => {
 //     const user = users.find((u) => u.name === req.params.name);
 
