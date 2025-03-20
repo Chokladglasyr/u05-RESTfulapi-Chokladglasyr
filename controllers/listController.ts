@@ -32,6 +32,23 @@ export const getListByUserId = async (req:Request, res: Response) => {
     
     }
 }
+
+export const createList = async (req:Request, res: Response) => {
+    try {
+        const { title, description } = req.body;
+        const userId = req.params.id;
+        const newList = new List ({ userId, title, description });
+        await newList.save();
+        res.status(201).json({newList});
+
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            res.status(500).json({error: error.message});
+            return;
+        }
+    
+    }  
+}
 // try {
 
 // } catch (error: unknown) {
@@ -42,36 +59,6 @@ export const getListByUserId = async (req:Request, res: Response) => {
    
 // }
 
-
-// export const getListByUsername = (req: Request, res: Response): void => {
-
-//     const user = users.find((u) => u.name == req.params.name);
-
-//     if(!user) {
-//          res.status(404).json({message: "Unfortunately, a user with that name was not found!5"});
-//          return;
-//     }
-   
-//     const list = lists.filter((l) => l.userId === user.id)
-//     res.json(list);
-// };
-// export const createList = (req: Request, res: Response) => {
-//     const user = users.find((u) => u.name === req.params.name);
-//     if(!user) {
-//         res.status(404).json({message: "Unfortunately, a user with that name was not found!6"});
-//         return;
-//    }
-//     const newList = {
-//         id: lists.length +1,
-//         userId: user.id,
-//         username: user.name,
-//         title: req.body.title,
-//         description: req.body.description
-//     };
-//     lists.push(newList);
-//     res.status(201).json(newList);
-    
-// }
 // export const updateListByUsername = (req: Request, res: Response): void => {
 //     const { title, description } = req.body;
 //     const user = users.find((u) => u.name === req.params.name);
