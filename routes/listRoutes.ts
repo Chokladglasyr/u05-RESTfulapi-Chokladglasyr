@@ -1,11 +1,11 @@
 import express, {Request, Response} from "express";
-import { getLists } from "../controllers/listController";
+import {  getListByUserId, getLists } from "../controllers/listController";
 
 
 const listRouter = express.Router();
 
 listRouter.get('/', getLists);
-// listRouter.get('/:name', getListByUsername);
+listRouter.get('/:id', getListByUserId);
 // listRouter.post('/:name', createList);
 // listRouter.put('/:name/:id', updateListByUsername);
 // listRouter.delete('/:name/:id', deleteList);

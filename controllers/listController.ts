@@ -14,6 +14,24 @@ export const getLists = async (req: Request, res: Response) => {
        
     }
 }
+
+export const getListByUserId = async (req:Request, res: Response) => {
+    try {
+        const list = await List.find({ userId: req.params.id}).exec();
+        if(!list) {
+            res.status(404).json({message: "Can't find list"});
+            return;
+        }
+        res.json(list);
+
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            res.status(500).json({error: error.message});
+            return;
+        }
+    
+    }
+}
 // try {
 
 // } catch (error: unknown) {
@@ -24,9 +42,6 @@ export const getLists = async (req: Request, res: Response) => {
    
 // }
 
-// export const getLists = (req: Request, res: Response) => {
-//     res.json(lists);
-// };
 
 // export const getListByUsername = (req: Request, res: Response): void => {
 
