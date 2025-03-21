@@ -1,22 +1,50 @@
-// import {Request, Response } from "express";
-// import { lists } from "../models/listModel";
-// import users from "../models/userModel";
-// import { list_items } from "../models/list_itemsModel";
-// import { request } from "http";
+import {Request, Response } from "express";
+import List_item from "../models/list_itemsModel";
+import List from "../models/listModel";
 
-// export const getList_items = (req: Request, res: Response) => {
-//     res.json(list_items);
-// };
-// export const getList_itemsByList = (req: Request, res: Response): void => {
-//     // const list = lists.find((l) => l.id === parseInt(req.params.id));
- 
-//     const items = list_items.filter((l) => l.listId === parseInt(req.params.id));
-//     if (!items) {
-//         res.status(404).json({message: "Can't find anything"});
+export const getList_items = async (req: Request, res: Response) => {
+    try {
+        const list_items = await List_item.find();
+        res.json(list_items);
+    } catch(error: unknown) {
+        if (error instanceof Error) {
+            res.status(500).json({error: error.message});
+            return;
+        }
+    }
+}
+export const getList_itemsByUser = async (req: Request, res: Response) => {
+    try {
+        const list = await List.find({ userId: req.params.id}).exec();
+        if (!list) {
+            res.status(404).json({message: "Something went wrong"});
+        }
+        
+        const listIds = list.map(item => item._id);
+        
+        const items = await List_item.find({ listId: listIds});
+        if (!items) {
+            res.status(404).json({message: "Nothing in the list"});
+        }
+        res.json(items);
+
+    } catch(error: unknown) {
+        if (error instanceof Error) {
+            res.status(500).json({error: error.message});
+            return;
+        }
+    } 
+}
+
+// try {
+
+// } catch(error: unknown) {
+//     if (error instanceof Error) {
+//         res.status(500).json({error: error.message});
 //         return;
 //     }
-//     res.json(items);
-    
+// }
+
 // };
 // export const getList_itemsByUser = (req:Request, res: Response) => {
 //     const { name } = req.query;

@@ -41,3 +41,5 @@ export let list_items: List_item[] = [
         "price": 265
     },
 ];
+
+export default List_item;
