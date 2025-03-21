@@ -84,29 +84,19 @@ export const updateList_item = async (req: Request, res: Response) => {
         }
     }  
 }
-// try {
+export const deleteList_item = async (req: Request, res: Response) => {
+    try {
+        const item = await List_item.findByIdAndDelete(req.params.id);
+        console.log(item);
+        if(!item) {
+            res.status(404).json({message: "Can't find item."})
+        }
+        res.json({message: "Item deleted."});
 
-// } catch(error: unknown) {
-//     if (error instanceof Error) {
-//         res.status(500).json({error: error.message});
-//         return;
-//     }
-// }
-
-// export const deleteList_item = (req: Request, res: Response) => {
-//     const {name} = req.query;
-//     const list_itemIndex = lists.findIndex((i) => (i.id) === parseInt(req.params.id));
-//     const user = users.find((u) => u.name === name);
-
-//     if(!user || user.name != lists[list_itemIndex].username) {
-//         res.status(404).json({message: "Access denied"});
-//         return;
-//     }
-//     if (list_itemIndex === -1) {
-//         res.status(404).json({message: "Couldn't find item"});
-//         return;
-//     }
-//     list_items.splice(list_itemIndex, 1);
-//     res.json({message: "Item deleted"});
-
-// };
+    } catch(error: unknown) {
+        if (error instanceof Error) {
+            res.status(500).json({error: error.message});
+            return;
+        }
+    }
+}
