@@ -36,6 +36,21 @@ export const getList_itemsByUser = async (req: Request, res: Response) => {
     } 
 }
 
+export const getList_itemsByList = async (req: Request, res: Response) => {
+    try {
+        const items = await List_item.find({listId: req.params.id});
+        if (!items) {
+            res.status(404).json({message: "Nothing found"});
+        }
+        res.json(items);
+
+    } catch(error: unknown) {
+        if (error instanceof Error) {
+            res.status(500).json({error: error.message});
+            return;
+        }
+    }
+}
 // try {
 
 // } catch(error: unknown) {
@@ -45,28 +60,6 @@ export const getList_itemsByUser = async (req: Request, res: Response) => {
 //     }
 // }
 
-// };
-// export const getList_itemsByUser = (req:Request, res: Response) => {
-//     const { name } = req.query;
-//     const user = users.find((u) => u.name === name);
-
-//     if(!user) {
-//         res.status(404).json({message: "No user found"});
-//         return;
-//     }
-
-//     const list = lists.find((l) => l.userId === user.id);
-//     if(!list) {
-//         res.status(404).json({message: "Something went wrong"});
-//         return;
-//     }
-//     const items = list_items.filter((i) => (i.listId) === list.id);
-//     if(!items) {
-//         res.status(404).json({message: "Nothing found"});
-//         return;
-//     }
-//     res.json(items);
-// };
 // export const createList_item = (req: Request, res: Response) => {
 //     const list = lists.find((l) => l.id === parseInt(req.params.id));
 //     if (!list) {
