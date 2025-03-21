@@ -51,6 +51,24 @@ export const getList_itemsByList = async (req: Request, res: Response) => {
         }
     }
 }
+export const createList_item = async (req: Request, res: Response) => {
+    try {
+        const { link, description, price, photo } = req.body;
+        const listId = req.params.id;
+        const list = await List.find({_id: listId});
+        const listName = list.map(list => list.title);
+
+        const newItem = new List_item ({ listId, link, description, price, photo });
+        await newItem.save();
+        res.status(201).json({newItem, message: `added to ${listName}`});
+
+    } catch(error: unknown) {
+        if (error instanceof Error) {
+            res.status(500).json({error: error.message});
+            return;
+        }
+    }  
+}
 // try {
 
 // } catch(error: unknown) {
