@@ -1,6 +1,6 @@
 import express, {Request, Response} from "express";
 import { createUser, deleteUser, getUserById, getUsers, updateUser } from "../controllers/userController";
-
+import bcrypt from "bcrypt";
 
 const userRouter = express.Router();
 
