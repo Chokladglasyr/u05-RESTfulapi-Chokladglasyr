@@ -1,6 +1,7 @@
 import express, {Express, Request, Response} from "express"
 import cors from "cors";
 import dotenv from "dotenv";
+import bcrypt from "bcrypt";
 import connectDB from "../database/db";
 import userRouter from  "../routes/userRoutes";
 import listRouter from  "../routes/listRoutes";
