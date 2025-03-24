@@ -1,12 +1,12 @@
 import express, {Express, Request, Response} from "express"
 import cors from "cors";
 import dotenv from "dotenv";
-import bcrypt from "bcrypt";
 import connectDB from "../database/db";
 import userRouter from  "../routes/userRoutes";
 import listRouter from  "../routes/listRoutes";
 import list_itemRouter from "../routes/list_itemRoutes";
 import { createUser } from "../controllers/userController";
+import { loginUser } from "../controllers/authController";
 
 
 
@@ -26,6 +26,7 @@ app.get('/', (req: Request, res: Response) => {
     res.send("RESTful API by Ida")});
 
 app.use('/register', createUser);
+app.use('/login', loginUser)
 
 app.use('/users', userRouter);
 app.use('/lists', listRouter);

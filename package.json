@@ -23,6 +23,7 @@
   "homepage": "https://github.com/Chokladglasyr/u05-RESTfulapi-Chokladglasyr#readme",
   "devDependencies": {
     "@types/cors": "^2.8.17",
+    "@types/jsonwebtoken": "^9.0.9",
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
     "typescript": "5.8.2"
