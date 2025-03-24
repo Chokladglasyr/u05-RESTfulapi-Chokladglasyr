@@ -26,6 +26,12 @@ userSchema.pre("save", async function (next) {
             return next(error);
         }
     }
-})
+});
+userSchema.methods.matchPassword = async function (password: string, confirmed_password: string) {
+    if (password !== confirmed_password) {
+        throw new Error("Passwords do not match");
+      }
+    return await bcrypt.compare(password, this.password);
+}
 
 export default userSchema;
