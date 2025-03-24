@@ -6,6 +6,7 @@ import connectDB from "../database/db";
 import userRouter from  "../routes/userRoutes";
 import listRouter from  "../routes/listRoutes";
 import list_itemRouter from "../routes/list_itemRoutes";
+import { createUser } from "../controllers/userController";
 
 
 
@@ -23,6 +24,8 @@ app.use(cors({
 
 app.get('/', (req: Request, res: Response) => {
     res.send("RESTful API by Ida")});
+
+app.use('/register', createUser);
 
 app.use('/users', userRouter);
 app.use('/lists', listRouter);
