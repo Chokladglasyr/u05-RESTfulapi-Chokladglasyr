@@ -1,9 +1,10 @@
 import {Request, Response } from "express";
 import User from "../models/userModel";
-import bcrypt from "bcrypt";
+import { AuthRequest } from "../interfaces/userInterface";
 
-export const getUsers = async (req: Request, res: Response) => {
+export const getUsers = async (req: AuthRequest, res: Response) => {
 try {
+    
     const users = await User.find();
     res.json(users);
 
@@ -34,6 +35,10 @@ export const getUserById = async (req: Request, res: Response): Promise<void> =>
 export const createUser = async (req: Request, res: Response) => {
     try {
         const { name, email, password, confirmed_password } = req.body;
+        const userExists = await User.find({email: email});
+        if (userExists) {
+            res.status(404).json({message: "User already exists"})
+        }
         const newUser = new User ({name, email, password, confirmed_password});
         await newUser.save();
         res.status(201).json({newUser});

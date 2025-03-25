@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     password: {type: String, required: true},
     confirmed_password: {type: String, required: true},
 },
-    {collection: 'users'}
+    {timestamps: true}
 );
 
 userSchema.pre("save", async function (next) {
