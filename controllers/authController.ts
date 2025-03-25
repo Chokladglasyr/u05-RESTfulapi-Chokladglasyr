@@ -38,11 +38,12 @@ export const loginUser = async (req: Request, res: Response) => {
         const match = await bcrypt.compare(password, user.password)
         if (match) {
             //JWT
-        const generateToken = (id: string) => {
-        return jwt.sign({ id }, (process.env as any).JWT_Secret, {expiresIn: '1h'})
-    }
-            res.status(201).json({message: "Logged in"});
+        console.log(user);
+        const accessToken = jwt.sign({user}, process.env.JWT_SECRET!);
+        
+        res.status(201).json({message: "Logged in", accessToken: accessToken});
         }
+
     } catch(error: unknown) {
         if (error instanceof Error) {
             res.status(500).json({error: error.message});
