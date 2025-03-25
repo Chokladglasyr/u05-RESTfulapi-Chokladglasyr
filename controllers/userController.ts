@@ -32,12 +32,18 @@ export const getUserById = async (req: Request, res: Response): Promise<void> =>
         }
     }
 }
-export const createUser = async (req: Request, res: Response) => {
+export const createUser = async (req: AuthRequest, res: Response) => {
     try {
+        const user = await User.findOne({_id: req.userId}).select("admin");
+        if(!user || (user.admin != true)) {
+            res.status(403).json({message: "You don't have the authorization to do that."});
+            return;
+        }
         const { name, email, password, confirmed_password } = req.body;
         const userExists = await User.find({email: email});
         if (userExists) {
-            res.status(404).json({message: "User already exists"})
+            res.status(404).json({message: "User already exists"});
+            return;
         }
         const newUser = new User ({name, email, password, confirmed_password});
         await newUser.save();

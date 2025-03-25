@@ -7,7 +7,7 @@ const list_itemsSchema = new mongoose.Schema({
     photo: String,
     price: Number
 },
-    {collection: 'list_items'}
+    {timestamps: true}
 );
 
 export default list_itemsSchema;
