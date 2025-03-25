@@ -1,25 +1,33 @@
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import User from "../models/userModel";
+import { AuthRequest } from "../interfaces/userInterface";
 
-export const authCheck = (req: Request, res: Response, next: NextFunction) => {
+export const authCheck = async (req: AuthRequest, res: Response, next: NextFunction) => {
     const authHeader = req.header("Authorization")
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        return res.status(401).json({ success: false, message: "Invalid"});
+        res.status(401).json({message: "You need to log in to be able to do that"});
+        return;
     }
 
-    const token = authHeader.replace("Bearer ", "")
+    const token = authHeader.split(" ")[1];
+ 
 
     if (!token) {
-        return res.status(401).json({success: false, message: "Not found"});
+        res.status(401).json({message: "No Access"});
+        return;
     }
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET!);
-        (req as any).user = decoded; 
+        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
+
+        req.userId = decoded.id;
         next();
+
     } catch (error: unknown) {
         if ( error instanceof Error) {
             res.status(500).json({error: error.message});
+            return;
         }
     }
 };

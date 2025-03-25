@@ -2,9 +2,11 @@ import mongoose from "mongoose";
 
 const listSchema = new mongoose.Schema({
     userId: String,
-    title: String,
+    username: String,
+    title: {type: String, required: true},
     description: String
 },
-{collection: 'lists'});
+{timestamps: true}
+);
 
 export default listSchema;

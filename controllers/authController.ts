@@ -3,8 +3,9 @@ import {Request, Response } from "express";
 import User from "../models/userModel";
 import bcrypt from "bcrypt";
 
-
-
+const generateToken = (userId: string): string => {
+    return jwt.sign({ id: userId }, process.env.JWT_SECRET!, { expiresIn: "1h" });
+};
 
 
 export const registerUser = async (req: Request, res: Response) => {
@@ -37,11 +38,13 @@ export const loginUser = async (req: Request, res: Response) => {
         }
         const match = await bcrypt.compare(password, user.password)
         if (match) {
-            //JWT
-        console.log(user);
-        const accessToken = jwt.sign({user}, process.env.JWT_SECRET!);
+        const userId = user._id.toString();
+        const accessToken = generateToken(userId);
+
+        res.status(201).json({message: "Logged in", accessToken});
         
-        res.status(201).json({message: "Logged in", accessToken: accessToken});
+        }else {
+            res.status(401).json({ message: 'Invalid email or password' });
         }
 
     } catch(error: unknown) {
