@@ -1,4 +1,6 @@
-interface User {
+import { Request } from "express";
+
+export interface User {
     id: number,
     name: string,
     email: string,
@@ -6,4 +8,6 @@ interface User {
     confirmed_password: string,
 }
 
-export default User;
+export interface AuthRequest extends Request {
+    userId?: string;
+}

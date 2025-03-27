@@ -1,9 +1,10 @@
 import {Request, Response } from "express";
 import User from "../models/userModel";
-import bcrypt from "bcrypt";
+import { AuthRequest } from "../interfaces/userInterface";
 
-export const getUsers = async (req: Request, res: Response) => {
+export const getUsers = async (req: AuthRequest, res: Response) => {
 try {
+    
     const users = await User.find();
     res.json(users);
 
@@ -31,9 +32,19 @@ export const getUserById = async (req: Request, res: Response): Promise<void> =>
         }
     }
 }
-export const createUser = async (req: Request, res: Response) => {
+export const createUser = async (req: AuthRequest, res: Response) => {
     try {
+        const user = await User.findOne({_id: req.userId}).select("admin");
+        if(!user || (user.admin != true)) {
+            res.status(403).json({message: "You don't have the authorization to do that."});
+            return;
+        }
         const { name, email, password, confirmed_password } = req.body;
+        const userExists = await User.find({email: email});
+        if (userExists) {
+            res.status(404).json({message: "User already exists"});
+            return;
+        }
         const newUser = new User ({name, email, password, confirmed_password});
         await newUser.save();
         res.status(201).json({newUser});
@@ -46,8 +57,9 @@ export const createUser = async (req: Request, res: Response) => {
     }
 }
 
-export const updateUser = async (req: Request, res: Response) => {
+export const updateUser = async (req: AuthRequest, res: Response) => {
     try {
+
         const user = await User.findByIdAndUpdate(req.params.id, req.body, {new: true});
         if (!user) {
             res.status(404).json({message: "User not found"});
@@ -64,8 +76,9 @@ export const updateUser = async (req: Request, res: Response) => {
     }
 }
 
-export const deleteUser = async (req: Request, res: Response) => {
+export const deleteUser = async (req: AuthRequest, res: Response) => {
     try {
+
         const user = await User.findByIdAndDelete(req.params.id);
         if(!user) {
             res.status(404).json({message: "User not found"});

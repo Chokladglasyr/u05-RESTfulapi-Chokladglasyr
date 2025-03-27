@@ -5,10 +5,11 @@ const userSchema = new mongoose.Schema({
     id: {type: String},
     name: {type: String, required: true},
     email: {type: String, required: true},
+    admin: {type: Boolean, default: false},
     password: {type: String, required: true},
     confirmed_password: {type: String, required: true},
 },
-    {collection: 'users'}
+    {timestamps: true}
 );
 
 userSchema.pre("save", async function (next) {
@@ -26,6 +27,6 @@ userSchema.pre("save", async function (next) {
             return next(error);
         }
     }
-})
+});
 
 export default userSchema;
