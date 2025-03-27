@@ -59,15 +59,7 @@ export const createUser = async (req: AuthRequest, res: Response) => {
 
 export const updateUser = async (req: AuthRequest, res: Response) => {
     try {
-        const isAdmin = await User.findOne({_id: req.userId}).select("admin");
 
-        if((req.userId != req.params.id)) {
-            if(!isAdmin || (isAdmin.admin != true)) {
-                
-                res.status(403).json({message: "You don't have the authorization to do that."});
-                return;
-            }
-        }
         const user = await User.findByIdAndUpdate(req.params.id, req.body, {new: true});
         if (!user) {
             res.status(404).json({message: "User not found"});
@@ -84,8 +76,9 @@ export const updateUser = async (req: AuthRequest, res: Response) => {
     }
 }
 
-export const deleteUser = async (req: Request, res: Response) => {
+export const deleteUser = async (req: AuthRequest, res: Response) => {
     try {
+
         const user = await User.findByIdAndDelete(req.params.id);
         if(!user) {
             res.status(404).json({message: "User not found"});

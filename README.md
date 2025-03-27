@@ -14,8 +14,22 @@ Each item will have title, description, link to item. For added features user wi
 Eventually be able to search and filter lists made by one specific user. 
 
 # Getting started
-Clone the project  
++ Clone the project from GitHub
+    - ```git clone ```
++ Install all required packages
+    - ``` npm run i ```
++ Copy the .env file from .env.example
+    - ``` cp .env ```
++ Build the project
+    - ```npm run build ```
++ Run nodemon
+    - ``` npm run dev ```
++ Run [curl commands](#curl-commands) or import insomnia file and run in insomnia
+
 
 # API Architecture
 [API design](design.md)  
-[ER diagram](https://drawsql.app/teams/hej-8/diagrams/api)
+[ER diagram](https://drawsql.app/teams/hej-8/diagrams/api)  
+[User Stories](https://www.figma.com/design/VDilkI4u1PNdBnRvvUf8nw/U05?node-id=0-1&t=bd7YJaSQPoJvRy8t-1)
+
+# Curl Commands  

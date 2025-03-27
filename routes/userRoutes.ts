@@ -1,14 +1,14 @@
 import express, {Request, Response} from "express";
 import { createUser, deleteUser, getUserById, getUsers, updateUser } from "../controllers/userController";
 import bcrypt from "bcrypt";
-import { authCheck } from "../middlewares/authMiddleware";
+import { adminCheck, authCheck } from "../middlewares/authMiddleware";
 
 const userRouter = express.Router();
 
 userRouter.get('/', getUsers);
-userRouter.get('/:id', getUserById);
+userRouter.get('/:userid', getUserById);
 userRouter.post('/', authCheck, createUser);
-userRouter.put('/:id', authCheck, updateUser);
-userRouter.delete('/:id', authCheck, deleteUser);
+userRouter.put('/:userid', authCheck, adminCheck, updateUser);
+userRouter.delete('/:userid', authCheck, adminCheck, deleteUser);
 
 export default userRouter;

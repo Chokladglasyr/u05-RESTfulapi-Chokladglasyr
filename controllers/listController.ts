@@ -37,6 +37,7 @@ export const getListByUserId = async (req:Request, res: Response) => {
 export const createList = async (req: AuthRequest, res: Response) => {
     try {
         const user = await User.findOne({ _id: req.userId})
+        console.log(req.userId);
 
         const userId = req.userId;
         const { title, description } = req.body;
@@ -56,6 +57,7 @@ export const createList = async (req: AuthRequest, res: Response) => {
 export const updateList = async (req: AuthRequest, res: Response) => {
     try {
         const user = await List.findById(req.params.id);
+ 
         
         if(!user){
             res.status(404).json({message: "List not found"});
