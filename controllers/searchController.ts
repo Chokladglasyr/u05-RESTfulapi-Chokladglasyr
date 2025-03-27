@@ -10,7 +10,7 @@ export const searchListsByName = async (req: Request, res: Response) => {
             res.status(404).json({message: "Nothing to search for"});
         }
         const lists = await List.find({username: {$regex: name, $options: "i"}});
-        console.log(name)
+        
         if (!lists) {
             res.status(404).json({message: "nothing found"});
         }
