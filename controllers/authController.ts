@@ -14,7 +14,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
         const userExists = await User.findOne({ email: email });
         if (userExists) {
-            res.status(404).json({message: "User already exists"});
+            res.status(404).json({message: "User with that email already exists."});
         }
 
         const newUser = new User ({name, email, password, confirmed_password});
@@ -33,7 +33,7 @@ export const loginUser = async (req: Request, res: Response) => {
         const { email, password } = req.body;
         const user = await User.findOne({ email: email });
         if (!user) {
-            res.status(404).json({message: "Can't find"});
+            res.status(404).json({message: "Cannot find user with that email."});
             return;
         }
         const match = await bcrypt.compare(password, user.password)
