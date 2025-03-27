@@ -66,7 +66,7 @@ exports.getListByUserId = getListByUserId;
 const createList = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield userModel_1.default.findOne({ _id: req.userId });
-        console.log(user);
+
         const userId = req.userId;
         const { title, description } = req.body;
         const username = user === null || user === void 0 ? void 0 : user.name;

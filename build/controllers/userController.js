@@ -72,7 +72,7 @@ exports.createUser = createUser;
 const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield userModel_1.default.findByIdAndUpdate(req.params.userid, req.body, { new: true });
-        console.log(req.params.id);
+        
         if (!user) {
             res.status(404).json({ message: "User not found" });
             return;

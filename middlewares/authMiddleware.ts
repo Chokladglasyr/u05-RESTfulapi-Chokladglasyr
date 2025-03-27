@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import User from "../models/userModel";
 import { AuthRequest } from "../interfaces/userInterface";
+import List from "../models/listModel";
+import List_item from "../models/list_itemsModel";
 
 export const authCheck = async (req: AuthRequest, res: Response, next: NextFunction) => {
     const authHeader = req.header("Authorization")
@@ -33,10 +35,15 @@ export const authCheck = async (req: AuthRequest, res: Response, next: NextFunct
 };
 export const adminCheck = async (req: AuthRequest, res: Response, next: NextFunction) => {
 
-    const isAdmin = await User.findOne({_id: req.userId}).select("admin");
+    const isAdmin = await User.findOne({_id: req.userId});
+    let isOwner = await List.findById(req.params.id);
 
-    
-    if((req.userId != req.params.userid)) {
+    if (!isOwner) {
+        isOwner = await List_item.findById(req.params.id);
+    }
+    const userId = isOwner?.userId;
+
+    if((req.userId != userId)) {
         if(!isAdmin || (isAdmin.admin != true)) {
             
             res.status(403).json({message: "You don't have the authorization to do that."});
