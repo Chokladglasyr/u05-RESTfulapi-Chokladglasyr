@@ -6,7 +6,7 @@ import userRouter from  "../routes/userRoutes";
 import listRouter from  "../routes/listRoutes";
 import list_itemRouter from "../routes/list_itemRoutes";
 import { createUser } from "../controllers/userController";
-import { loginUser } from "../controllers/authController";
+import { loginUser, registerUser } from "../controllers/authController";
 import { searchListsByName } from "../controllers/searchController";
 
 
@@ -26,7 +26,7 @@ app.use(cors({
 app.get('/', (req: Request, res: Response) => {
     res.send("RESTful API by Ida")});
 
-app.use('/register', createUser);
+app.use('/register', registerUser);
 app.use('/login', loginUser)
 
 app.use('/users', userRouter);

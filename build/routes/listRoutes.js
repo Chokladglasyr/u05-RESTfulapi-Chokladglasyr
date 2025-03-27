@@ -5,10 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const listController_1 = require("../controllers/listController");
+const authMiddleware_1 = require("../middlewares/authMiddleware");
 const listRouter = express_1.default.Router();
-listRouter.get('/lists', listController_1.getLists);
-listRouter.get('/lists/:id', listController_1.getListByUserId);
-// listRouter.post('/', createUser);
-// listRouter.put('/:name', updateUser);
-// listRouter.delete('/:name', deleteUser);
+listRouter.get('/', listController_1.getLists);
+listRouter.get('/:id', listController_1.getListByUserId);
+listRouter.post('/', authMiddleware_1.authCheck, listController_1.createList);
+listRouter.put('/:userid/:id', authMiddleware_1.authCheck, authMiddleware_1.adminCheck, listController_1.updateList);
+listRouter.delete('/:userid/:id', authMiddleware_1.authCheck, listController_1.deleteList);
 exports.default = listRouter;

@@ -12,28 +12,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importDefault(require("mongoose"));
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
-const MONGO_URI_LOCAL = process.env.MONGO_URL_LOCAL;
-const MONGO_URI_PROD = process.env.MONGO_URL_PROD;
-function connectDB() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const MONGO_URI = process.env.NODE_ENV === "prod" ? MONGO_URI_PROD : MONGO_URI_LOCAL;
-        if (!MONGO_URI) {
-            console.log("Unable to find DB");
-            return;
+exports.searchListsByName = void 0;
+const listModel_1 = __importDefault(require("../models/listModel"));
+const searchListsByName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { name } = req.query;
+        if (!name) {
+            res.status(404).json({ message: "Nothing to search for" });
         }
-        try {
-            yield mongoose_1.default.connect(MONGO_URI, {});
-            console.log(`Connected to DB ${MONGO_URI}`);
+        const lists = yield listModel_1.default.find({ username: { $regex: name, $options: "i" } });
+        if (!lists) {
+            res.status(404).json({ message: "nothing found" });
         }
-        catch (error) {
-            if (error instanceof Error) {
-                console.error(`Error while connecting to DB: ${error.message}`);
-                process.exit(1);
-            }
+        res.json(lists);
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            res.status(500).json({ error: error.message });
         }
-    });
-}
-exports.default = connectDB;
+    }
+});
+exports.searchListsByName = searchListsByName;

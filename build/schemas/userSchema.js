@@ -13,27 +13,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
-const MONGO_URI_LOCAL = process.env.MONGO_URL_LOCAL;
-const MONGO_URI_PROD = process.env.MONGO_URL_PROD;
-function connectDB() {
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const userSchema = new mongoose_1.default.Schema({
+    id: { type: String },
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    admin: { type: Boolean, default: false },
+    password: { type: String, required: true },
+    confirmed_password: { type: String, required: true },
+}, { timestamps: true });
+userSchema.pre("save", function (next) {
     return __awaiter(this, void 0, void 0, function* () {
-        const MONGO_URI = process.env.NODE_ENV === "prod" ? MONGO_URI_PROD : MONGO_URI_LOCAL;
-        if (!MONGO_URI) {
-            console.log("Unable to find DB");
-            return;
+        if (!this.isModified("password")) {
+            return next();
         }
         try {
-            yield mongoose_1.default.connect(MONGO_URI, {});
-            console.log(`Connected to DB ${MONGO_URI}`);
+            const hashedPassword = yield bcrypt_1.default.hash(this.password, 10);
+            this.password = hashedPassword;
+            const hashedConfirmed_password = yield bcrypt_1.default.hash(this.confirmed_password, 10);
+            this.confirmed_password = hashedConfirmed_password;
+            return next();
         }
         catch (error) {
             if (error instanceof Error) {
-                console.error(`Error while connecting to DB: ${error.message}`);
-                process.exit(1);
+                return next(error);
             }
         }
     });
-}
-exports.default = connectDB;
+});
+exports.default = userSchema;
