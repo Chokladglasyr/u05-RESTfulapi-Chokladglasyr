@@ -15,6 +15,27 @@ export const getLists = async (req: Request, res: Response) => {
         }
     }
 }
+// const getListsPaginate = async (req: AuthRequest, res: Response) => {
+//     try {
+//         const { page = 1, limit = 10 } = req.query;
+//         const skip = (page - 1) * limit;
+
+//         const users = await User.find().skip(skip).limit(parseInt(limit));
+//         const totalCount = await User.countDocuments();
+
+//         res.json({
+//             totalCount,
+//             totalPages: Math.ceil(totalCount / limit),
+//             currentPage: parseInt(page),
+//             users,
+//         });
+//     } catch (error: unknown) {
+//         if (error instanceof Error) {
+//             res.status(500).json({error: error.message})
+
+//         }
+//     }
+// };
 
 export const getListByUserId = async (req:Request, res: Response) => {
     try {
@@ -37,7 +58,7 @@ export const getListByUserId = async (req:Request, res: Response) => {
 export const createList = async (req: AuthRequest, res: Response) => {
     try {
         const user = await User.findOne({ _id: req.userId})
-        console.log(req.userId);
+        console.log(user);
 
         const userId = req.userId;
         const { title, description } = req.body;

@@ -60,7 +60,8 @@ export const createUser = async (req: AuthRequest, res: Response) => {
 export const updateUser = async (req: AuthRequest, res: Response) => {
     try {
 
-        const user = await User.findByIdAndUpdate(req.params.id, req.body, {new: true});
+        const user = await User.findByIdAndUpdate(req.params.userid, req.body, {new: true});
+        console.log(req.params.id);
         if (!user) {
             res.status(404).json({message: "User not found"});
             return;

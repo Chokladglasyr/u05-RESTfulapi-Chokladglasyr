@@ -7,6 +7,7 @@ import listRouter from  "../routes/listRoutes";
 import list_itemRouter from "../routes/list_itemRoutes";
 import { createUser } from "../controllers/userController";
 import { loginUser } from "../controllers/authController";
+import { searchListsByName } from "../controllers/searchController";
 
 
 
@@ -31,6 +32,7 @@ app.use('/login', loginUser)
 app.use('/users', userRouter);
 app.use('/lists', listRouter);
 app.use('/items', list_itemRouter);
+app.use('/search', searchListsByName)
 
 app.listen(PORT, () => {
     console.log(`Application is running at http://localhost:${PORT}`);
