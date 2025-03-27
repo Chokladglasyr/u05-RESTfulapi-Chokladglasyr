@@ -15,7 +15,7 @@ Eventually be able to search and filter lists made by one specific user.
 
 # Getting started
 + Clone the project from GitHub
-    - ```git clone ```
+    - ```git clone https://github.com/Chokladglasyr/u05-RESTfulapi-Chokladglasyr.git```
 + Install all required packages
     - ``` npm run i ```
 + Copy the .env file from .env.example
