@@ -4,8 +4,11 @@ import { AuthRequest } from "../interfaces/userInterface";
 
 export const getUsers = async (req: AuthRequest, res: Response) => {
 try {
-    
-    const users = await User.find();
+    const users = await User.find().select("-password -confirmed_password");
+    if (!users || users.length === 0) {
+        res.status(404).json({message: "Nothing found"})
+        return;
+    }
     res.json(users);
 
 } catch (error: unknown){
@@ -18,9 +21,9 @@ try {
 
 export const getUserById = async (req: Request, res: Response): Promise<void> => {
     try {
-        const user = await User.findById(req.params.id);
+        const user = await User.findById(req.params.userid);
         if(!user) {
-            res.status(404).json({message: "Can't find user"});
+            res.status(404).json({message: "Nothing found"});
             return;
         }
         res.json(user);
@@ -40,7 +43,7 @@ export const createUser = async (req: AuthRequest, res: Response) => {
             return;
         }
         const { name, email, password, confirmed_password } = req.body;
-        const userExists = await User.find({email: email});
+        const userExists = await User.findOne({email: email});
         if (userExists) {
             res.status(404).json({message: "User already exists"});
             return;
@@ -59,6 +62,16 @@ export const createUser = async (req: AuthRequest, res: Response) => {
 
 export const updateUser = async (req: AuthRequest, res: Response) => {
     try {
+
+        const isOwner = await User.findOne({_id: req.params.userid})
+        const loggedUser = await User.findOne({_id: req.userId})
+        if (!isOwner || !loggedUser!.admin) {
+            if (isOwner?._id.toString() != req.userId) {
+                res.status(404).json({message: "You don't have the authorization to do that."})
+                return;
+            }
+         
+        }
 
         const user = await User.findByIdAndUpdate(req.params.userid, req.body, {new: true});
         

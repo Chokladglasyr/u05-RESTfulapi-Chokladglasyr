@@ -38,17 +38,21 @@ export const adminCheck = async (req: AuthRequest, res: Response, next: NextFunc
     const isAdmin = await User.findOne({_id: req.userId});
     let isOwner = await List.findById(req.params.id);
 
+
     if (!isOwner) {
         isOwner = await List_item.findById(req.params.id);
     }
     const userId = isOwner?.userId;
-
-    if((req.userId != userId)) {
-        if(!isAdmin || (isAdmin.admin != true)) {
-            
-            res.status(403).json({message: "You don't have the authorization to do that."});
-            return;
+    
+    if(req.userId != isAdmin!._id.toString()) {
+        if(req.userId != userId) {
+            if(!isAdmin || (isAdmin.admin != true)) {
+                
+                res.status(403).json({message: "You don't have the authorization to do that."});
+                return;
+            }
         }
     }
+
     next();
 }
