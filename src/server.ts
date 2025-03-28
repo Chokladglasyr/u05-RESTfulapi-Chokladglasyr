@@ -7,7 +7,7 @@ import listRouter from  "../routes/listRoutes";
 import list_itemRouter from "../routes/list_itemRoutes";
 import { createUser } from "../controllers/userController";
 import { loginUser, registerUser } from "../controllers/authController";
-import { searchListsByName } from "../controllers/searchController";
+import { filterListItemsByPrice, filterListItemsByPriceAndUser, searchListsByName, sortListItems } from "../controllers/featureController";
 
 
 
@@ -27,12 +27,16 @@ app.get('/', (req: Request, res: Response) => {
     res.send("RESTful API by Ida")});
 
 app.use('/register', registerUser);
-app.use('/login', loginUser)
+app.use('/login', loginUser);
 
 app.use('/users', userRouter);
 app.use('/lists', listRouter);
 app.use('/items', list_itemRouter);
-app.use('/search', searchListsByName)
+
+app.use('/sort', sortListItems);
+app.use('/search', searchListsByName);
+app.use('/filter', filterListItemsByPrice);
+app.use('/filteruser', filterListItemsByPriceAndUser);
 
 app.listen(PORT, () => {
     console.log(`Application is running at http://localhost:${PORT}`);
