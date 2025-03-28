@@ -15,6 +15,7 @@ export const registerUser = async (req: Request, res: Response) => {
         const userExists = await User.findOne({ email: email });
         if (userExists) {
             res.status(404).json({message: "User with that email already exists."});
+            return;
         }
 
         const newUser = new User ({name, email, password, confirmed_password});
@@ -33,7 +34,7 @@ export const loginUser = async (req: Request, res: Response) => {
         const { email, password } = req.body;
         const user = await User.findOne({ email: email });
         if (!user) {
-            res.status(404).json({message: "Cannot find user with that email."});
+            res.status(404).json({message: "Invalid email or password"});
             return;
         }
         const match = await bcrypt.compare(password, user.password)
@@ -45,6 +46,7 @@ export const loginUser = async (req: Request, res: Response) => {
         
         }else {
             res.status(401).json({ message: 'Invalid email or password' });
+            return;
         }
 
     } catch(error: unknown) {
