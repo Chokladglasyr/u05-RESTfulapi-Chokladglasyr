@@ -7,7 +7,8 @@ export const getLists = async (req: Request, res: Response) => {
     try {
         const lists = await List.find();
         if(!lists) {
-            res.json({message: "There are no lists."})
+            res.json({message: "Nothing found"})
+            return;
         }
         res.json(lists)
 
@@ -22,7 +23,7 @@ export const getListByUserId = async (req:Request, res: Response) => {
     try {
         const list = await List.find({ userId: req.params.id}).exec();
         if(!list) {
-            res.status(404).json({message: "List not found."});
+            res.status(404).json({message: "Nothing found."});
             return;
         }
         res.json(list);
@@ -56,16 +57,7 @@ export const createList = async (req: AuthRequest, res: Response) => {
 }
 export const updateList = async (req: AuthRequest, res: Response) => {
     try {
-        // const user = await List.findById(req.params.id);
-        // if(!user){
-        //     res.status(404).json({message: "List not found"});
-        //     return;
-        // }
 
-        // if (user.userId !== req.userId) {
-        //     res.status(403).json({message: "No access"});
-        //     return;
-        // }
         const list = await List.findByIdAndUpdate(req.params.id, req.body, {new: true});
 
         if(!list) {
@@ -82,17 +74,7 @@ export const updateList = async (req: AuthRequest, res: Response) => {
 }
 export const deleteList = async (req: AuthRequest, res: Response) => {
 try {
-    const user = await List.findById(req.params.id);
 
-    if(!user){
-        res.status(404).json({message: "List not found"});
-        return;
-    }
-
-    if (user.userId !== req.userId) {
-        res.status(403).json({message: "No access"});
-        return;
-    }
     const list = await List.findByIdAndDelete(req.params.id);
     if (!list) {
         res.status(404).json({message: "List not found"});

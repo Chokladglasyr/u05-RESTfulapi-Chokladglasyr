@@ -37,14 +37,14 @@ export const adminCheck = async (req: AuthRequest, res: Response, next: NextFunc
 
     const isAdmin = await User.findOne({_id: req.userId});
     let isOwner = await List.findById(req.params.id);
-
-
+   
     if (!isOwner) {
         isOwner = await List_item.findById(req.params.id);
     }
     const userId = isOwner?.userId;
-    
-    if(req.userId != isAdmin!._id.toString()) {
+    console.log(userId)
+    console.log(req.userId)
+
         if(req.userId != userId) {
             if(!isAdmin || (isAdmin.admin != true)) {
                 
@@ -52,7 +52,7 @@ export const adminCheck = async (req: AuthRequest, res: Response, next: NextFunc
                 return;
             }
         }
-    }
+    
 
     next();
 }
