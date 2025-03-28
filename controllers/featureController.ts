@@ -3,8 +3,7 @@ import List from "../models/listModel";
 import { AuthRequest } from "../interfaces/userInterface";
 import User from "../models/userModel";
 import List_item from "../models/list_itemsModel";
-import { isNull } from "node:util";
-import { toNamespacedPath } from "node:path/posix";
+
 
 export const searchListsByName = async (req: Request, res: Response) => {
     try {
@@ -12,17 +11,20 @@ export const searchListsByName = async (req: Request, res: Response) => {
         const { name } = req.query;
 
         if (!name) {
-            res.status(404).json({message: "Nothing to search for"});
+            res.status(404).json({message: "Nothing to search for, please enter a name."});
+            return;
         }
         const lists = await List.find({username: {$regex: name, $options: "i"}});
         
         if (!lists) {
-            res.status(404).json({message: "nothing found"});
+            res.status(404).json({message: "Nothing found."});
+            return;
         }
         res.json(lists);
     } catch (error: unknown) {
         if (error instanceof Error) {
             res.status(500).json({error: error.message});
+            return;
         }
     }
 
@@ -39,6 +41,7 @@ export const sortListItems = async (req: AuthRequest, res: Response) => {
     } catch (error: unknown) {
         if (error instanceof Error) {
             res.status(500).json({error: error.message});
+            return;
         }
     }
 }
@@ -53,6 +56,7 @@ export const filterListItemsByPrice = async (req: AuthRequest, res: Response) =>
     } catch (error: unknown) {
         if (error instanceof Error) {
             res.status(500).json({error: error.message});
+            return;
         }
     }
 }
@@ -60,8 +64,8 @@ export const filterListItemsByPriceAndUser = async (req: AuthRequest, res: Respo
     try {
         const {maxPrice = "300", limit = "10", name} = req.query;
         const users = await User.find({name: {$regex: name, $options: "i"}});
-        if (!users) {
-            res.status(404).json({message: "Can't find user"});
+        if (!users || users.length === 0) {
+            res.status(404).json({message: "Found no matches for users name."});
             return;
         }
         const userId = users.map(user => user._id);
@@ -70,6 +74,7 @@ export const filterListItemsByPriceAndUser = async (req: AuthRequest, res: Respo
     } catch (error: unknown) {
         if (error instanceof Error) {
             res.status(500).json({error: error.message})
+            return;
         }
     }
 }
