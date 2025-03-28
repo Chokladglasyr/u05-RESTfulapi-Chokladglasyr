@@ -92,8 +92,16 @@ export const updateUser = async (req: AuthRequest, res: Response) => {
 
 export const deleteUser = async (req: AuthRequest, res: Response) => {
     try {
-
-        const user = await User.findByIdAndDelete(req.params.id);
+        const isOwner = await User.findOne({_id: req.params.userid})
+        const loggedUser = await User.findOne({_id: req.userId})
+        if (!isOwner || !loggedUser!.admin) {
+            if (isOwner?._id.toString() != req.userId) {
+                res.status(404).json({message: "You don't have the authorization to do that."})
+                return;
+            }
+         
+        }
+        const user = await User.findByIdAndDelete(req.params.userid);
         if(!user) {
             res.status(404).json({message: "User not found"});
             return;
