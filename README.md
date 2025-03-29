@@ -91,6 +91,23 @@ Response:
 ```
 {"message":"Logged in","accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZTE0YjlhYTgwODM2NjE3Mzg0MzNkOCIsImlhdCI6MTc0MzA4MTc2MSwiZXhwIjoxNzQzMDg1MzYxfQ.UMeJi1X6X3eEqpdHR7PG9OmeIATwyv6T9VIxQ-2rNRg"}
 ```
+
+Create a new list:   
+```
+curl --request POST \
+  --url http://localhost:3003/lists \
+  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZGVjYTJjNGM5NzFjOWE5ODI2YjkzMSIsImlhdCI6MTc0MzIwNzkwMywiZXhwIjoxNzQzMjExNTAzfQ.9wUH67qWw0lj-FGoXQ-8OeLCtd54BVC0R_Kpb4jhOwQ' \
+  --header 'Content-Type: application/json' \
+  --header 'User-Agent: insomnia/10.3.1' \
+  --data '{
+	"title": "casso",
+	"description": "bday"
+}'
+```   
+Response:   
+```
+{"newList":{"userId":"67deca2c4c971c9a9826b931","username":"Eva","title":"casso","description":"bday","_id":"67e73e10928bc7969926f3f8","createdAt":"2025-03-29T00:25:52.985Z","updatedAt":"2025-03-29T00:25:52.985Z","__v":0}}
+```
 -------------------------  
   
 To get all items from a specific list:
