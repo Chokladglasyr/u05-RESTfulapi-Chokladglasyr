@@ -22,9 +22,9 @@ export const getList_itemsByUser = async (req: Request, res: Response) => {
         if (!list) {
             res.status(404).json({message: "Something went wrong"});
         }
-        
+
         const listIds = list.map(item => item._id);
-        
+
         const items = await List_item.find({ listId: listIds});
         if (!items) {
             res.status(404).json({message: "Nothing in the list"});
