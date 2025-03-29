@@ -30,7 +30,7 @@ Eventually be able to search and filter lists made by one specific user.
 [ER diagram](https://drawsql.app/teams/hej-8/diagrams/api)  
 [User Stories](https://www.figma.com/design/VDilkI4u1PNdBnRvvUf8nw/U05?node-id=0-1&t=bd7YJaSQPoJvRy8t-1)
 
-# Curl Commands Examples 
+# cURL Commands Examples 
 
 ### Local version:
 To get all users:  
@@ -123,3 +123,52 @@ Response:
 ]
 ```
 ### Deployed
+
+To register:  
+  
+  ```
+  curl --request POST   --url https://u05-restfulapi-chokladglasyr.onrender.com/register   --header 'Content-Type: application/json'   --header 'User-Agent: insomnia/11.0.0'   --data '    {
+        "name": "janee",
+        "email": "jane@example.com",
+        "password": "hej1234",
+        "confirmed_password": "hej1234"
+    }' | json_pp
+```   
+   
+Response:  
+  
+  ```
+  {
+   "newUser" : {
+      "__v" : 0,
+      "_id" : "67e5c85938b813fc18775ad0",
+      "admin" : false,
+      "confirmed_password" : "$2b$10$oJ6XKpTjlgU.zupIcuh36OB6izzP/OEzGFPqI9x.WfvLltZaWFaTu",
+      "createdAt" : "2025-03-27T21:51:21.267Z",
+      "email" : "jane@example.com",
+      "name" : "janee",
+      "password" : "$2b$10$YdYOVmKMTIkwiXQsBaTrNeS5CBa6p.uxb824QxeZMB16IoWKSouSm",
+      "updatedAt" : "2025-03-27T21:51:21.267Z"
+   }
+}
+```  
+  
+Tring to update a user without being logged in:  
+  
+  ```
+  curl --request PUT \
+  --url http://localhost:3003/users/67deca2c4c971c9a9826b931 \
+  --header 'Content-Type: application/json' \
+  --header 'User-Agent: insomnia/10.3.1' \
+  --data '{
+	"name": "Casso"
+}' | json_pp
+```  
+  
+Response:  
+  
+```
+{
+   "message" : "You need to log in to be able to do that"
+}
+```

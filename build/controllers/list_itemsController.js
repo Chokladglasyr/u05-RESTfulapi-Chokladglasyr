@@ -53,7 +53,7 @@ exports.getList_itemsByUser = getList_itemsByUser;
 const getList_itemsByList = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const items = yield list_itemsModel_1.default.find({ listId: req.params.id });
-        console.log(items);
+       
         if (!items) {
             res.status(404).json({ message: "Nothing found" });
         }
@@ -120,7 +120,7 @@ const deleteList_item = (req, res) => __awaiter(void 0, void 0, void 0, function
             }
         }
         const item = yield list_itemsModel_1.default.findByIdAndDelete(req.params.id);
-        console.log(item);
+
         if (!item) {
             res.status(404).json({ message: "Can't find item." });
         }
