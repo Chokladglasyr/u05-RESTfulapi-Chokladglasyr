@@ -7,16 +7,14 @@ import List_item from "../models/list_itemsModel";
 
 export const searchListsByName = async (req: Request, res: Response) => {
     try {
-        
         const { name } = req.query;
-
         if (!name) {
             res.status(404).json({message: "Nothing to search for, please enter a name."});
             return;
         }
         const lists = await List.find({username: {$regex: name, $options: "i"}});
-        
-        if (!lists) {
+
+        if (!lists || lists.length === 0) {
             res.status(404).json({message: "Nothing found."});
             return;
         }
@@ -48,9 +46,13 @@ export const sortListItems = async (req: AuthRequest, res: Response) => {
 export const filterListItemsByPrice = async (req: AuthRequest, res: Response) => {
     try {
         const { maxPrice = "200", limit = "10" } = req.query;
-        
-            const items = await List_item.find({price: {$lte: maxPrice}}).limit(parseInt(limit.toString()));
-            res.json(items);
+        console.log(maxPrice)
+        const items = await List_item.find({price: {$lte: maxPrice}}).limit(parseInt(limit.toString()));
+        if (items.length === 0) {
+            res.status(404).json({message: "Nothing found"});
+            return;
+        }
+        res.json(items);
         
 
     } catch (error: unknown) {
@@ -70,6 +72,9 @@ export const filterListItemsByPriceAndUser = async (req: AuthRequest, res: Respo
         }
         const userId = users.map(user => user._id);
         const items = await List_item.find({price: {$lte: maxPrice}, userId: userId});
+        if (items.length === 0) {
+            res.status(404).json({message: "Nothing found."})
+        }
         res.json(items);
     } catch (error: unknown) {
         if (error instanceof Error) {

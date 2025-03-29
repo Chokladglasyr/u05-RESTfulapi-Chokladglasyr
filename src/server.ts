@@ -5,7 +5,6 @@ import connectDB from "../database/db";
 import userRouter from  "../routes/userRoutes";
 import listRouter from  "../routes/listRoutes";
 import list_itemRouter from "../routes/list_itemRoutes";
-import { createUser } from "../controllers/userController";
 import { loginUser, registerUser } from "../controllers/authController";
 import { filterListItemsByPrice, filterListItemsByPriceAndUser, searchListsByName, sortListItems } from "../controllers/featureController";
 
