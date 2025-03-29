@@ -26,9 +26,10 @@ So if someones birthday is coming up, the can log in, look for the and browse th
 
   
 ----------- Extra functionality ---------------------------
-/search?:listname                   (search for all lists with list name)
-/search?:username                   (search for all user with user name)
-/search?:itemname                   (search for all lists with item name in)
+/search?name=                   (search lists by user name)
+/filter?maxPrice=               (filter list items by a max price)
+/filteruser?maxPrice=&name=     (filter list items by a max price and user name)
+/sort/sortBy=&order=            (sort list items by something in ascending or descending order)
 
 ```
   
