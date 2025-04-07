@@ -57,18 +57,21 @@ export const getList_itemsByList = async (req: Request, res: Response) => {
 }
 export const createList_item = async (req: AuthRequest, res: Response) => {
     try {
-        const { link, description, price, photo } = req.body;
+        
+        const { link, description, price } = req.body;
         const listId = req.params.id;
         const userId = req.userId;
         const list = await List.find({_id: listId});
         const listName = list.map(list => list.title).toString();
         const listUser = list.map(list => list.userId).toString();
+        const photo = [req.file?.originalname, req.file?.mimetype];
         if (userId != listUser) {
             res.status(403).json({message: "not allowed"});
             return;
         }
-
+   
         const newItem = new List_item ({ listId, userId, link, description, price, photo, listName });
+    
         await newItem.save();
         res.status(201).json({newItem, message: `added to ${listName}`});
 
@@ -79,6 +82,7 @@ export const createList_item = async (req: AuthRequest, res: Response) => {
         }
     }  
 }
+
 export const updateList_item = async (req: AuthRequest, res: Response) => {
     try {
         const item = await List_item.findByIdAndUpdate(req.params.id, req.body, {new: true});

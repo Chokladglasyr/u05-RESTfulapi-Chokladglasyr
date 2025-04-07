@@ -11,5 +11,5 @@ listRouter.get('/', listController_1.getLists);
 listRouter.get('/:id', listController_1.getListByUserId);
 listRouter.post('/', authMiddleware_1.authCheck, listController_1.createList);
 listRouter.put('/:userid/:id', authMiddleware_1.authCheck, authMiddleware_1.adminCheck, listController_1.updateList);
-listRouter.delete('/:userid/:id', authMiddleware_1.authCheck, listController_1.deleteList);
+listRouter.delete('/:userid/:id', authMiddleware_1.authCheck, authMiddleware_1.adminCheck, listController_1.deleteList);
 exports.default = listRouter;

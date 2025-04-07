@@ -189,3 +189,21 @@ Response:
    "message" : "You need to log in to be able to do that"
 }
 ```
+  
+Create a new list:  
+```
+curl --request POST \
+  --url https://u05-restfulapi-chokladglasyr.onrender.com/lists \
+  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZTVjN2JlOGYyYjMyNDYxMDIxNjZkOCIsImlhdCI6MTc0MzIwODQzOCwiZXhwIjoxNzQzMjEyMDM4fQ.Kdxm3W4OhTGTnyuEtNj1wYxUIhuQ8Z2cHfD59K0iZVM' \
+  --header 'Content-Type: application/json' \
+  --header 'User-Agent: insomnia/10.3.1' \
+  --data '{
+	"title": "pappa",
+	"description": "bday"
+}'
+```
+Response:  
+```
+{"newList":{"userId":"67e5c7be8f2b3246102166d8","username":"pappa","title":"pappa","description":"bday","_id":"67e740956a9c6f4a3f94347e","createdAt":"2025-03-29T00:36:37.741Z","updatedAt":"2025-03-29T00:36:37.741Z","__v":0}}
+```
+

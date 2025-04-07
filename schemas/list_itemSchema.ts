@@ -6,7 +6,7 @@ const list_itemsSchema = new mongoose.Schema({
     userId: String,
     listName: String,
     link: String,
-    photo: String,
+    photo: {type: Array},
     price: Number
 },
     {timestamps: true}

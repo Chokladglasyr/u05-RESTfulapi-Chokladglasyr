@@ -9,7 +9,6 @@ import { loginUser, registerUser } from "../controllers/authController";
 import { filterListItemsByPrice, filterListItemsByPriceAndUser, searchListsByName, sortListItems } from "../controllers/featureController";
 
 
-
 dotenv.config(); 
 connectDB();
 
@@ -21,6 +20,7 @@ app.use(cors({
     origin: process.env.NODE_ENV === "prod" ? process.env.ORIGIN_URL_PROD : process.env.ORIGIN_URL_LOCAL,
 }
 ));
+
 
 app.get('/', (req: Request, res: Response) => {
     res.send("RESTful API by Ida")});
@@ -36,6 +36,8 @@ app.use('/sort', sortListItems);
 app.use('/search', searchListsByName);
 app.use('/filter', filterListItemsByPrice);
 app.use('/filteruser', filterListItemsByPriceAndUser);
+
+
 
 app.listen(PORT, () => {
     console.log(`Application is running at http://localhost:${PORT}`);

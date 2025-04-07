@@ -53,7 +53,6 @@ exports.getList_itemsByUser = getList_itemsByUser;
 const getList_itemsByList = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const items = yield list_itemsModel_1.default.find({ listId: req.params.id });
-       
         if (!items) {
             res.status(404).json({ message: "Nothing found" });
         }
@@ -68,12 +67,20 @@ const getList_itemsByList = (req, res) => __awaiter(void 0, void 0, void 0, func
 });
 exports.getList_itemsByList = getList_itemsByList;
 const createList_item = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
     try {
-        const { link, description, price, photo } = req.body;
+        const { link, description, price } = req.body;
         const listId = req.params.id;
+        const userId = req.userId;
         const list = yield listModel_1.default.find({ _id: listId });
         const listName = list.map(list => list.title).toString();
-        const newItem = new list_itemsModel_1.default({ listId, link, description, price, photo, listName });
+        const listUser = list.map(list => list.userId).toString();
+        const photo = [(_a = req.file) === null || _a === void 0 ? void 0 : _a.originalname, (_b = req.file) === null || _b === void 0 ? void 0 : _b.mimetype];
+        if (userId != listUser) {
+            res.status(403).json({ message: "not allowed" });
+            return;
+        }
+        const newItem = new list_itemsModel_1.default({ listId, userId, link, description, price, photo, listName });
         yield newItem.save();
         res.status(201).json({ newItem, message: `added to ${listName}` });
     }
@@ -87,14 +94,6 @@ const createList_item = (req, res) => __awaiter(void 0, void 0, void 0, function
 exports.createList_item = createList_item;
 const updateList_item = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let checkOwner = yield list_itemsModel_1.default.findById(req.params.id);
-        if (checkOwner) {
-            const isOwner = yield listModel_1.default.findById(checkOwner.listId);
-            if (isOwner && (req.userId != isOwner.userId)) {
-                res.status(403).json({ message: "cannot" });
-                return;
-            }
-        }
         const item = yield list_itemsModel_1.default.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!item) {
             res.status(404).json({ message: "Can't find item." });
@@ -111,16 +110,7 @@ const updateList_item = (req, res) => __awaiter(void 0, void 0, void 0, function
 exports.updateList_item = updateList_item;
 const deleteList_item = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let checkOwner = yield list_itemsModel_1.default.findById(req.params.id);
-        if (checkOwner) {
-            const isOwner = yield listModel_1.default.findById(checkOwner.listId);
-            if (isOwner && (req.userId != isOwner.userId)) {
-                res.status(403).json({ message: "cannot" });
-                return;
-            }
-        }
         const item = yield list_itemsModel_1.default.findByIdAndDelete(req.params.id);
-
         if (!item) {
             res.status(404).json({ message: "Can't find item." });
         }
