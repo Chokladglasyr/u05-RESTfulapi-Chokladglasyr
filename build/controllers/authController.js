@@ -24,7 +24,8 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const { name, email, password, confirmed_password } = req.body;
         const userExists = yield userModel_1.default.findOne({ email: email });
         if (userExists) {
-            res.status(404).json({ message: "User already exists" });
+            res.status(404).json({ message: "User with that email already exists." });
+            return;
         }
         const newUser = new userModel_1.default({ name, email, password, confirmed_password });
         yield newUser.save();
@@ -43,7 +44,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { email, password } = req.body;
         const user = yield userModel_1.default.findOne({ email: email });
         if (!user) {
-            res.status(404).json({ message: "Can't find" });
+            res.status(404).json({ message: "Invalid email or password" });
             return;
         }
         const match = yield bcrypt_1.default.compare(password, user.password);
@@ -54,6 +55,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         else {
             res.status(401).json({ message: 'Invalid email or password' });
+            return;
         }
     }
     catch (error) {

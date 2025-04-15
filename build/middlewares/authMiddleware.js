@@ -15,6 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.adminCheck = exports.authCheck = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const userModel_1 = __importDefault(require("../models/userModel"));
+const listModel_1 = __importDefault(require("../models/listModel"));
+const list_itemsModel_1 = __importDefault(require("../models/list_itemsModel"));
 const authCheck = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const authHeader = req.header("Authorization");
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -40,8 +42,19 @@ const authCheck = (req, res, next) => __awaiter(void 0, void 0, void 0, function
 });
 exports.authCheck = authCheck;
 const adminCheck = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const isAdmin = yield userModel_1.default.findOne({ _id: req.userId }).select("admin");
-    if ((req.userId != req.params.userid)) {
+    const isAdmin = yield userModel_1.default.findOne({ _id: req.userId });
+    let isOwner = yield listModel_1.default.findById(req.params.id);
+    if (!isOwner) {
+        isOwner = yield list_itemsModel_1.default.findById(req.params.id);
+        if (req.userId != (isOwner === null || isOwner === void 0 ? void 0 : isOwner.userId)) {
+            if (!isAdmin || (isAdmin.admin != true)) {
+                res.status(403).json({ message: "You don't have the authorization to do that." });
+                return;
+            }
+        }
+    }
+    const userId = isOwner === null || isOwner === void 0 ? void 0 : isOwner.userId;
+    if (req.userId != userId) {
         if (!isAdmin || (isAdmin.admin != true)) {
             res.status(403).json({ message: "You don't have the authorization to do that." });
             return;

@@ -7,6 +7,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const list_itemsSchema = new mongoose_1.default.Schema({
     description: { type: String, require: true },
     listId: { type: String, require: true },
+    userId: String,
     listName: String,
     link: String,
     photo: String,
