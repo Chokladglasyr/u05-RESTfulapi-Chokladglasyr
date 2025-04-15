@@ -8,13 +8,13 @@ import List_item from "../models/list_itemsModel";
 export const authCheck = async (req: AuthRequest, res: Response, next: NextFunction) => {
     const authHeader = req.header("Authorization")
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    if (!authHeader) {
         res.status(401).json({message: "You need to log in to be able to do that"});
         return;
     }
 
-    const token = authHeader.split(" ")[1];
- 
+    const token = authHeader;
+    
 
     if (!token) {
         res.status(401).json({message: "No Access"});
