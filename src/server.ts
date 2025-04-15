@@ -19,6 +19,7 @@ const PORT: string | number = process.env.PORT || 3003;
 app.use(express.json());
 app.use(cors({
     origin: process.env.NODE_ENV === "prod" ? process.env.ORIGIN_URL_PROD : process.env.ORIGIN_URL_LOCAL,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 }
 ));
 
