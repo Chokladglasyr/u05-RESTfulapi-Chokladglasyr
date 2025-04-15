@@ -25,8 +25,8 @@ app.use(cors({
 app.get('/', (req: Request, res: Response) => {
     res.send("RESTful API by Ida")});
 
-app.use('/register', registerUser);
-app.use('/login', loginUser);
+app.post('/register', registerUser);
+app.post('/login', loginUser);
 
 app.use('/users', userRouter);
 app.use('/lists', listRouter);
