@@ -12,8 +12,10 @@ export const authCheck = async (req: AuthRequest, res: Response, next: NextFunct
         res.status(401).json({message: "You need to log in to be able to do that"});
         return;
     }
-
-    const token = authHeader;
+    let token = authHeader;
+    if(authHeader.startsWith("Bearer ")) {
+        token = authHeader.split(" ")[1];
+    }
  
 
     if (!token) {
