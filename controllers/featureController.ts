@@ -74,6 +74,7 @@ export const filterListItemsByPriceAndUser = async (req: AuthRequest, res: Respo
         const items = await List_item.find({price: {$lte: maxPrice}, userId: userId});
         if (items.length === 0) {
             res.status(404).json({message: "Nothing found."})
+            return;
         }
         res.json(items);
     } catch (error: unknown) {
