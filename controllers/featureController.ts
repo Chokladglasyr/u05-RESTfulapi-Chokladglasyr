@@ -65,13 +65,15 @@ export const filterListItemsByPrice = async (req: AuthRequest, res: Response) =>
 export const filterListItemsByPriceAndUser = async (req: AuthRequest, res: Response) => {
     try {
         const {maxPrice = "300", limit = "10", name} = req.query;
+        const maxPriceNum = parseFloat(maxPrice as string) || 300;
+        const limitNum = parseInt(limit as string) || 10;
         const users = await User.find({name: {$regex: name, $options: "i"}});
         if (!users || users.length === 0) {
             res.status(404).json({message: "Found no matches for users name."});
             return;
         }
         const userId = users.map(user => user._id);
-        const items = await List_item.find({price: {$lte: maxPrice}, userId: userId});
+        const items = await List_item.find({price: {$lte: maxPriceNum}, userId: userId}).limit(limitNum);
         if (items.length === 0) {
             res.status(404).json({message: "Nothing found."})
             return;
