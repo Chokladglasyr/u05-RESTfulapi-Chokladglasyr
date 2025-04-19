@@ -71,6 +71,7 @@ export const loginUser = async (req: Request, res: Response) => {
 export const refreshToken = async (req: Request, res: Response) => {
     console.log(res.getHeader('Set-Cookie'))
     if (req.cookies?.jwt) {
+        console.log("hej")
         const refreshToken = req.cookies.jwt;
         console.log(refreshToken)
         console.log(process.env.JWT_SECRET_REFRESH)
