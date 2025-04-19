@@ -1,12 +1,16 @@
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import {Request, Response } from "express";
 import User from "../models/userModel";
 import bcrypt from "bcrypt";
+import { AuthRequest } from "../interfaces/userInterface";
 
 const generateToken = (userId: string): string => {
     return jwt.sign({ id: userId }, process.env.JWT_SECRET!, { expiresIn: "1h" });
 };
+const generateRefreshToken= (userId: string): string => {
+    return jwt.sign({ id: userId }, process.env.JWT_SECRET!, { expiresIn: "1h" });
 
+}
 
 export const registerUser = async (req: Request, res: Response) => {
     try {
@@ -41,7 +45,13 @@ export const loginUser = async (req: Request, res: Response) => {
         if (match) {
         const userId = user._id.toString();
         const accessToken = generateToken(userId);
-
+        const refreshToken = generateRefreshToken(userId);
+        
+        res.cookie('jwt', refreshToken, {
+            httpOnly: true,
+            sameSite: 'none', secure: true,
+            maxAge: 24 * 60 * 60 * 1000
+        });
         res.status(201).json({message: "Logged in", accessToken});
         
         }else {
@@ -54,5 +64,28 @@ export const loginUser = async (req: Request, res: Response) => {
             res.status(500).json({error: error.message});
             return;
         }
+    }
+}
+
+
+export const refreshToken = async (req: Request, res: Response) => {
+    console.log(res.getHeader('Set-Cookie'))
+    if (req.cookies?.jwt) {
+        const refreshToken = req.cookies.jwt;
+        console.log(refreshToken)
+        console.log(process.env.JWT_SECRET_REFRESH)
+
+        const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET_REFRESH!)as JwtPayload;
+            if(!decoded) {
+                res.status(406).json({ message: 'Unauthorizedaa' });
+                return;
+            } else {
+                const newAccessToken = generateToken(decoded.id)
+                res.json({ accessToken: newAccessToken });
+                return;
+                }
+    } else {
+    res.status(406).json({ message: 'Unauthorized' });
+    return;
     }
 }
