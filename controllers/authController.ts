@@ -9,7 +9,6 @@ const generateToken = (userId: string): string => {
 };
 const generateRefreshToken= (userId: string): string => {
     return jwt.sign({ id: userId }, process.env.JWT_SECRET!, { expiresIn: "1h" });
-
 }
 
 export const registerUser = async (req: Request, res: Response) => {
@@ -49,7 +48,7 @@ export const loginUser = async (req: Request, res: Response) => {
         
         res.cookie('jwt', refreshToken, {
             httpOnly: true,
-            sameSite: 'none', secure: true,
+            sameSite: 'lax', secure: false,
             maxAge: 24 * 60 * 60 * 1000
         });
 
