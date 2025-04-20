@@ -5,7 +5,7 @@ import connectDB from "../database/db";
 import userRouter from  "../routes/userRoutes";
 import listRouter from  "../routes/listRoutes";
 import list_itemRouter from "../routes/list_itemRoutes";
-import { loginUser, refreshToken, registerUser } from "../controllers/authController";
+import { loginUser, registerUser } from "../controllers/authController";
 import { filterListItemsByPrice, filterListItemsByPriceAndUser, searchListsByName, sortListItems } from "../controllers/featureController";
 
 
@@ -28,7 +28,7 @@ app.get('/', (req: Request, res: Response) => {
 
 app.post('/register', registerUser);
 app.post('/login', loginUser);
-app.post('/refresh', refreshToken);
+// app.post('/refresh', refreshToken);
 
 app.use('/users', userRouter);
 app.use('/lists', listRouter);

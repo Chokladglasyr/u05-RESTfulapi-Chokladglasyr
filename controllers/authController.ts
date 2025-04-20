@@ -2,14 +2,14 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import {Request, Response } from "express";
 import User from "../models/userModel";
 import bcrypt from "bcrypt";
-import { AuthRequest } from "../interfaces/userInterface";
+
 
 const generateToken = (userId: string): string => {
     return jwt.sign({ id: userId }, process.env.JWT_SECRET!, { expiresIn: "1h" });
 };
-const generateRefreshToken= (userId: string): string => {
-    return jwt.sign({ id: userId }, process.env.JWT_SECRET!, { expiresIn: "1h" });
-}
+// const generateRefreshToken= (userId: string): string => {
+//     return jwt.sign({ id: userId }, process.env.JWT_SECRET!, { expiresIn: "1h" });
+// }
 
 export const registerUser = async (req: Request, res: Response) => {
     try {
@@ -68,21 +68,21 @@ export const loginUser = async (req: Request, res: Response) => {
 }
 
 
-export const refreshToken = async (req: Request, res: Response) => {
+// export const refreshToken = async (req: Request, res: Response) => {
  
-    if (req.cookies?.jwt) {
-        const refreshToken = req.cookies.jwt;
-        const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET_REFRESH!)as JwtPayload;
-            if(!decoded) {
-                res.status(406).json({ message: 'Unauthorizedaa' });
-                return;
-            } else {
-                const newAccessToken = generateToken(decoded.id)
-                res.json({ accessToken: newAccessToken });
-                return;
-                }
-    } else {
-    res.status(406).json({ message: 'Unauthorized' });
-    return;
-    }
-}
+//     if (req.cookies?.jwt) {
+//         const refreshToken = req.cookies.jwt;
+//         const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET_REFRESH!)as JwtPayload;
+//             if(!decoded) {
+//                 res.status(406).json({ message: 'Unauthorizedaa' });
+//                 return;
+//             } else {
+//                 const newAccessToken = generateToken(decoded.id)
+//                 res.json({ accessToken: newAccessToken });
+//                 return;
+//                 }
+//     } else {
+//     res.status(406).json({ message: 'Unauthorized' });
+//     return;
+//     }
+// }
