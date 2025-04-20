@@ -46,7 +46,7 @@ export const adminCheck = async (req: AuthRequest, res: Response, next: NextFunc
 
         if(req.userId != isOwner?.userId) {
             if(!isAdmin || (isAdmin.admin != true)) {
-                
+                console.log("hej")
                 res.status(403).json({message: "You don't have the authorization to do that."});
                 return;
             }
