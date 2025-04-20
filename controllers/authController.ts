@@ -49,9 +49,10 @@ export const loginUser = async (req: Request, res: Response) => {
         
         res.cookie('jwt', refreshToken, {
             httpOnly: true,
-            sameSite: 'lax', secure: false,
+            sameSite: 'none', secure: true,
             maxAge: 24 * 60 * 60 * 1000
         });
+
         res.status(201).json({message: "Logged in", accessToken});
         
         }else {
@@ -69,12 +70,9 @@ export const loginUser = async (req: Request, res: Response) => {
 
 
 export const refreshToken = async (req: Request, res: Response) => {
-    console.log(res.getHeader('Set-Cookie'))
+ 
     if (req.cookies?.jwt) {
         const refreshToken = req.cookies.jwt;
-        // console.log(refreshToken)
-        // console.log(process.env.JWT_SECRET_REFRESH)
-
         const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET_REFRESH!)as JwtPayload;
             if(!decoded) {
                 res.status(406).json({ message: 'Unauthorizedaa' });
