@@ -44,13 +44,13 @@ export const loginUser = async (req: Request, res: Response) => {
         if (match) {
         const userId = user._id.toString();
         const accessToken = generateToken(userId);
-        const refreshToken = generateRefreshToken(userId);
+        // const refreshToken = generateRefreshToken(userId);
         
-        res.cookie('jwt', refreshToken, {
-            httpOnly: true,
-            sameSite: 'none', secure: true,
-            maxAge: 24 * 60 * 60 * 1000
-        });
+        // res.cookie('jwt', refreshToken, {
+        //     httpOnly: true,
+        //     sameSite: 'none', secure: true,
+        //     maxAge: 24 * 60 * 60 * 1000
+        // });
 
         res.status(201).json({message: "Logged in", accessToken});
         
