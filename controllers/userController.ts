@@ -21,7 +21,25 @@ try {
 
 export const getUserById = async (req: Request, res: Response): Promise<void> => {
     try {
+    
         const user = await User.findById(req.params.userid);
+        if(!user) {
+            res.status(404).json({message: "Nothing found"});
+            return;
+        }
+        res.json(user);
+
+    } catch (error: unknown){
+        if (error instanceof Error) {
+            res.status(500).json({error: error.message});
+            return;
+        }
+    }
+}
+export const getProfile = async (req: AuthRequest, res: Response): Promise<void> => {
+    try {
+
+        const user = await User.findById(req.userId);
         if(!user) {
             res.status(404).json({message: "Nothing found"});
             return;
