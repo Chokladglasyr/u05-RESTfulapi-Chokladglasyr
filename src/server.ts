@@ -19,14 +19,16 @@ const PORT: string | number = process.env.PORT || 3003;
 app.use(express.json());
 app.use(cors({
     origin: process.env.NODE_ENV === "prod" ? process.env.ORIGIN_URL_PROD : process.env.ORIGIN_URL_LOCAL,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 }
 ));
 
 app.get('/', (req: Request, res: Response) => {
     res.send("RESTful API by Ida")});
 
-app.use('/register', registerUser);
-app.use('/login', loginUser);
+app.post('/register', registerUser);
+app.post('/login', loginUser);
+// app.post('/refresh', refreshToken);
 
 app.use('/users', userRouter);
 app.use('/lists', listRouter);

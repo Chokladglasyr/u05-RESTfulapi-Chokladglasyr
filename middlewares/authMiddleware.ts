@@ -8,12 +8,14 @@ import List_item from "../models/list_itemsModel";
 export const authCheck = async (req: AuthRequest, res: Response, next: NextFunction) => {
     const authHeader = req.header("Authorization")
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    if (!authHeader) {
         res.status(401).json({message: "You need to log in to be able to do that"});
         return;
     }
-
-    const token = authHeader.split(" ")[1];
+    let token = authHeader;
+    if(authHeader.startsWith("Bearer ")) {
+        token = authHeader.split(" ")[1];
+    }
  
 
     if (!token) {
@@ -36,21 +38,22 @@ export const authCheck = async (req: AuthRequest, res: Response, next: NextFunct
 export const adminCheck = async (req: AuthRequest, res: Response, next: NextFunction) => {
 
     const isAdmin = await User.findOne({_id: req.userId});
+
     let isOwner = await List.findById(req.params.id);
    
     if (!isOwner) {
         isOwner = await List_item.findById(req.params.id);
-  
+
         if(req.userId != isOwner?.userId) {
             if(!isAdmin || (isAdmin.admin != true)) {
-
+                
                 res.status(403).json({message: "You don't have the authorization to do that."});
                 return;
             }
         }
     }
     const userId = isOwner?.userId;
- 
+    
     if(req.userId != userId) {
         if(!isAdmin || (isAdmin.admin != true)) {
             

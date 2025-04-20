@@ -12,12 +12,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteList = exports.updateList = exports.createList = exports.getListByUserId = exports.getLists = void 0;
+exports.deleteList = exports.updateList = exports.createList = exports.getListByListId = exports.getListByUserId = exports.getLists = void 0;
 const listModel_1 = __importDefault(require("../models/listModel"));
 const userModel_1 = __importDefault(require("../models/userModel"));
 const getLists = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const lists = yield listModel_1.default.find();
+        if (!lists) {
+            res.json({ message: "Nothing found" });
+            return;
+        }
         res.json(lists);
     }
     catch (error) {
@@ -28,29 +32,12 @@ const getLists = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getLists = getLists;
-// const getListsPaginate = async (req: AuthRequest, res: Response) => {
-//     try {
-//         const { page = 1, limit = 10 } = req.query;
-//         const skip = (page - 1) * limit;
-//         const users = await User.find().skip(skip).limit(parseInt(limit));
-//         const totalCount = await User.countDocuments();
-//         res.json({
-//             totalCount,
-//             totalPages: Math.ceil(totalCount / limit),
-//             currentPage: parseInt(page),
-//             users,
-//         });
-//     } catch (error: unknown) {
-//         if (error instanceof Error) {
-//             res.status(500).json({error: error.message})
-//         }
-//     }
-// };
 const getListByUserId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const list = yield listModel_1.default.find({ userId: req.params.id }).exec();
+        const { id } = req.query;
+        const list = yield listModel_1.default.find({ _id: id }).exec();
         if (!list) {
-            res.status(404).json({ message: "Can't find list" });
+            res.status(404).json({ message: "Nothing found." });
             return;
         }
         res.json(list);
@@ -63,10 +50,26 @@ const getListByUserId = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.getListByUserId = getListByUserId;
+const getListByListId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const list = yield listModel_1.default.find({ listId: req.params.listid }).exec();
+        if (!list) {
+            res.status(404).json({ message: "Nothing found." });
+            return;
+        }
+        res.json(list);
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            res.status(500).json({ error: error.message });
+            return;
+        }
+    }
+});
+exports.getListByListId = getListByListId;
 const createList = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield userModel_1.default.findOne({ _id: req.userId });
-
         const userId = req.userId;
         const { title, description } = req.body;
         const username = user === null || user === void 0 ? void 0 : user.name;
@@ -84,15 +87,6 @@ const createList = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.createList = createList;
 const updateList = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = yield listModel_1.default.findById(req.params.id);
-        if (!user) {
-            res.status(404).json({ message: "List not found" });
-            return;
-        }
-        if (user.userId !== req.userId) {
-            res.status(403).json({ message: "No access" });
-            return;
-        }
         const list = yield listModel_1.default.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!list) {
             res.status(404).json({ message: "List not found" });
@@ -110,15 +104,6 @@ const updateList = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.updateList = updateList;
 const deleteList = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = yield listModel_1.default.findById(req.params.id);
-        if (!user) {
-            res.status(404).json({ message: "List not found" });
-            return;
-        }
-        if (user.userId !== req.userId) {
-            res.status(403).json({ message: "No access" });
-            return;
-        }
         const list = yield listModel_1.default.findByIdAndDelete(req.params.id);
         if (!list) {
             res.status(404).json({ message: "List not found" });

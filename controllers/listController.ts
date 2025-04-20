@@ -21,7 +21,26 @@ export const getLists = async (req: Request, res: Response) => {
 }
 export const getListByUserId = async (req:Request, res: Response) => {
     try {
-        const list = await List.find({ userId: req.params.id}).exec();
+        const { id } = req.query;
+
+        const list = await List.find({ _id: id}).exec();
+        if(!list) {
+            res.status(404).json({message: "Nothing found."});
+            return;
+        }
+        res.json(list);
+
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            res.status(500).json({error: error.message});
+            return;
+        }
+    
+    }
+}
+export const getListByListId = async (req:Request, res: Response) => {
+    try {
+        const list = await List.find({ listId: req.params.listid}).exec();
         if(!list) {
             res.status(404).json({message: "Nothing found."});
             return;

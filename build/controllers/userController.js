@@ -16,7 +16,11 @@ exports.deleteUser = exports.updateUser = exports.createUser = exports.getUserBy
 const userModel_1 = __importDefault(require("../models/userModel"));
 const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const users = yield userModel_1.default.find();
+        const users = yield userModel_1.default.find().select("-password -confirmed_password");
+        if (!users || users.length === 0) {
+            res.status(404).json({ message: "Nothing found" });
+            return;
+        }
         res.json(users);
     }
     catch (error) {
@@ -29,9 +33,9 @@ const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.getUsers = getUsers;
 const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = yield userModel_1.default.findById(req.params.id);
+        const user = yield userModel_1.default.findById(req.params.userid);
         if (!user) {
-            res.status(404).json({ message: "Can't find user" });
+            res.status(404).json({ message: "Nothing found" });
             return;
         }
         res.json(user);
@@ -52,7 +56,7 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             return;
         }
         const { name, email, password, confirmed_password } = req.body;
-        const userExists = yield userModel_1.default.find({ email: email });
+        const userExists = yield userModel_1.default.findOne({ email: email });
         if (userExists) {
             res.status(404).json({ message: "User already exists" });
             return;
@@ -71,8 +75,15 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.createUser = createUser;
 const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const isOwner = yield userModel_1.default.findOne({ _id: req.params.userid });
+        const loggedUser = yield userModel_1.default.findOne({ _id: req.userId });
+        if (!isOwner || !loggedUser.admin) {
+            if ((isOwner === null || isOwner === void 0 ? void 0 : isOwner._id.toString()) != req.userId) {
+                res.status(404).json({ message: "You don't have the authorization to do that." });
+                return;
+            }
+        }
         const user = yield userModel_1.default.findByIdAndUpdate(req.params.userid, req.body, { new: true });
-        
         if (!user) {
             res.status(404).json({ message: "User not found" });
             return;
@@ -89,7 +100,15 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.updateUser = updateUser;
 const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = yield userModel_1.default.findByIdAndDelete(req.params.id);
+        const isOwner = yield userModel_1.default.findOne({ _id: req.params.userid });
+        const loggedUser = yield userModel_1.default.findOne({ _id: req.userId });
+        if (!isOwner || !loggedUser.admin) {
+            if ((isOwner === null || isOwner === void 0 ? void 0 : isOwner._id.toString()) != req.userId) {
+                res.status(404).json({ message: "You don't have the authorization to do that." });
+                return;
+            }
+        }
+        const user = yield userModel_1.default.findByIdAndDelete(req.params.userid);
         if (!user) {
             res.status(404).json({ message: "User not found" });
             return;
